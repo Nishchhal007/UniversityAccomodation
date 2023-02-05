@@ -127,7 +127,7 @@ if (read) {
 	
 int recordFound = 0;
 string line;
-string temp = username + password + ".dat";
+string temp = username + ".dat";
 cout<<"\n file name is : "<<temp;
 while(getline(read, line)) {
 	if(line == temp)
@@ -311,8 +311,9 @@ int registerStudent()
     cout<<"\n ----- Form to Register Student ---- \n";	
 
     string name, username, password, rollno, address, father, mother;
-    
-    cout<<"\n Enter Name : ";     cin>>name;
+    getchar();
+    char names[50];
+    cout<<"\n Enter Name : ";     cin.getline(names,50);
     cout<<"\n Enter Username : ";     cin>>username;
     cout<<"\n Enter password : ";     cin>>password;
     cout<<"\n Enter rollno : ";     cin>>rollno;
