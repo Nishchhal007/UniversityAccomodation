@@ -4,14 +4,12 @@
 #include <string.h>
 #include <fstream>
 #include <cstring>
-#include"hostel.h"
 
 using namespace std;
 
-
 class student
 {
-	int roll_no;
+	int reg_num;
 	string name;
 	string father_name;
 	int room_no;
@@ -25,7 +23,7 @@ public:
 	void set_info_of_student()
 	{
 		cout << "Enter roll no of student" << endl;
-		cin >> roll_no;
+		cin >> reg_num;
 		cout << "Enter name of student" << endl;
 		getline(cin, name);
 		cout << "Enter name of father of the student" << endl;
@@ -43,10 +41,11 @@ public:
 		mess_bill = 0;
 	}
 
-	int get_roll_no()
+	int get_reg_num()
 	{
-		return roll_no;
+		return reg_num;
 	}
+
 	string get_name_of_student()
 	{
 		return name;
@@ -62,36 +61,131 @@ public:
 	void print_info()
 	{
 		cout << "Name of student:   " << name << endl;
-		cout << "Roll no of student:" << roll_no << endl;
+		cout << "Roll no of student:" << reg_num << endl;
 		cout << "Room no of student:" << room_no << endl;
 		cout << "Name of the hostel:" << name << endl;
 		cout << "Fathers name:      " << name << endl;
 		cout << "Address of student:" << name << endl;
 	}
-
-	void apply_hostel()
+	void request_service()
 	{
 
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
-		file1.read((char *)&temp, sizeof(temp));
-
-		while (!file1.eof())
+		cout << "1.Get Your CIS ID" << endl;
+		cout << "2.View Mess Bill" << endl;
+		cout << "3 for Electrician" << endl;
+		cout << "4 for Plumber" << endl;
+		cout << "5 for Room Cleaning" << endl;
+		cout << "6 for Furniture" << endl;
+		cout << "7 for exit" << endl;
+		int choice;
+		cin >> choice;
+		switch (choice)
 		{
-			cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
-			file1.read((char *)&temp, sizeof(temp));
+		case 1:
+			// complaint1();
+			break;
+		case 2:
+			// complaint2();
+			break;
+		case 3:
+			// complaint3();
+			break;
+		case 4:
+			// complaint4();
+			break;
+		case 5:
+			// complaint4();
+			break;
+		case 6:
+			// complaint4();
+			break;
+		case 7:
+			// complaint4();
+			break;
+
+		default:
+			break;
 		}
-		file1.close();
 	}
-	friend class hostel;
 };
 
 class admin
 {
 	string username;
 	string password;
+};
+
+class hostel_info
+{
+	string Electrician;
+	string Plumber;
+	string Cleaner;
+
+public:
+	hostel_info()
+	{
+	}
+	string get_electrician()
+	{
+		return Electrician;
+	}
+	string get_plumber()
+	{
+		return Plumber;
+	}
+	string get_cleaner()
+	{
+		return Cleaner;
+	}
+};
+
+class inventory
+{
+	int num_of_tables;
+	int num_of_bed;
+	int num_of_chair;
+	int num_of_almirah;
+
+public:
+	inventory()
+	{
+		set_tables(5);
+		set_almirah(5);
+		set_bed(5);
+		set_chair(5);
+	}
+	int get_tables()
+	{
+		return num_of_tables;
+	}
+	int get_bed()
+	{
+		return num_of_bed;
+	}
+	int get_chair()
+	{
+		return num_of_chair;
+	}
+	int get_almirah()
+	{
+		return num_of_almirah;
+	}
+	int set_tables(int x)
+	{
+		num_of_tables = x;
+	}
+	int set_bed(int x)
+	{
+		num_of_bed = x;
+	}
+	int set_chair(int x)
+	{
+		num_of_chair = x;
+	}
+	int set_almirah(int x)
+	{
+		num_of_almirah = x;
+	}
 };
 
 class room
@@ -137,9 +231,9 @@ public:
 		int flag = 0;
 		for (int i = 0; i < occupancy; i++)
 		{
-			if (residents[i].get_roll_no() == roll)
+			if (residents[i].get_reg_num() == roll)
 			{
-				// residents[i].set_roll_no(-1);
+				// residents[i].set_reg_num(-1);
 				flag = 1;
 				occupancy--;
 				break;
@@ -161,6 +255,9 @@ class hostel
 	room room_list[10];
 
 public:
+	inventory stock;
+	hostel_info info;
+
 	hostel()
 	{
 		cout << "Enter Hostel Name - ";
@@ -180,7 +277,6 @@ public:
 	{
 		return hostel_name;
 	}
-	
 };
 
 int adminView();
@@ -198,7 +294,6 @@ int adminLogin();
 int registerStudent();
 int markMyAttendance(string username);
 int countMyAttendance(string username);
-int delay();
 
 int adminView()
 {
@@ -277,7 +372,6 @@ int adminLogin()
 	{
 		adminView();
 		getchar();
-		delay();
 	}
 	else
 	{
@@ -555,7 +649,6 @@ int registerStudent()
 			cout << "\n Username already Register. Please choose another username ";
 			getchar();
 			getchar();
-			delay();
 			read.close();
 			return 0;
 		}
@@ -588,8 +681,26 @@ int registerStudent()
 	return 0;
 }
 
+void check_hostel()
+{
+
+	ifstream file1;
+	file1.open("hostel.txt", ios::in);
+
+	hostel temp;
+	file1.read((char *)&temp, sizeof(temp));
+
+	while (!file1.eof())
+	{
+		cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		file1.read((char *)&temp, sizeof(temp));
+	}
+	file1.close();
+}
+void title();
 int main()
 {
+	title();
 	while (1)
 	{
 		system("cls");
@@ -639,4 +750,15 @@ int main()
 		}
 	}
 	return 0;
+}
+
+void title()
+{
+	printf("\n");
+	printf("\t\t\t\t\t");
+	printf("\n");
+	printf("\t\t\t\t    ----------------------------------\n");
+	printf("\t\t\t\t    | University Accomodation Handling |\n");
+	printf("\t\t\t\t    ----------------------------------\n");
+	printf("\n");
 }
