@@ -12,7 +12,6 @@ void Plumber(string);
 void Cleaner(string);
 void Furniture(string hostel_name);
 
-
 class student
 {
 	int reg_num;
@@ -85,9 +84,7 @@ public:
 		cout << "Password - " << pass << reg_num << endl;
 	}
 
-
-
-	void request_service()
+	int request_service()
 	{
 
 		cout << "1.Get Your CIS ID" << endl;
@@ -103,27 +100,35 @@ public:
 		{
 		case 1:
 			get_CIS_id();
+			return 1;
 			break;
 		case 2:
 			// complaint2();
+			return 1;
 			break;
 		case 3:
 			Electrician(hostel_name);
+			return 1;
 			break;
 		case 4:
 			Plumber(hostel_name);
+			return 1;
 			break;
 		case 5:
 			Cleaner(hostel_name);
+			return 1;
 			break;
 		case 6:
 			Furniture(hostel_name);
+			return 1;
 			break;
 		case 7:
-			// complaint4();
+
+			return 0;
 			break;
 
 		default:
+			cout << "Invalid Choice" << endl;
 			break;
 		}
 	}
@@ -133,6 +138,30 @@ class admin
 {
 	string username;
 	string password;
+
+public:
+	admin()
+	{
+		username = "admin";
+		password = "anuy";
+	}
+
+	bool admin_login(string u, string p)
+	{
+		if (username == u && password == p)
+		{
+			adminView();
+			return 1;
+		}
+		else
+		{
+			cout << "\n Error ! Invalid Credintials.." << endl;
+			cout << "\n Press any key for main menu " << endl;
+			getchar();
+			getchar();
+			return 0;
+		}
+	}
 };
 
 class hostel_info
@@ -299,124 +328,119 @@ public:
 	}
 };
 
-
 void Electrician(string hostel_name)
+{
+
+	ifstream file1;
+	file1.open("hostel.txt", ios::in);
+
+	hostel temp;
+	file1.read((char *)&temp, sizeof(temp));
+	bool flag = 0;
+	while (!file1.eof())
 	{
+		// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		if (temp.getname() == hostel_name)
+		{
+			flag = 1;
+			cout << "Contact at " << temp.info.get_electrician() << endl;
+		}
 
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
 		file1.read((char *)&temp, sizeof(temp));
-		bool flag = 0;
-		while (!file1.eof())
-		{
-			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
-			if (temp.getname() == hostel_name)
-			{
-				flag = 1;
-				cout <<"Contact at "<< temp.info.get_electrician() << endl;
-			
-			}
-
-			file1.read((char *)&temp, sizeof(temp));
-		}
-		if (flag == 0)
-		{
-			cout << "Hostel Not alloted" << endl;
-		}
-
-		file1.close();
 	}
+	if (flag == 0)
+	{
+		cout << "Hostel Not alloted" << endl;
+	}
+
+	file1.close();
+}
 
 void Plumber(string hostel_name)
+{
+
+	ifstream file1;
+	file1.open("hostel.txt", ios::in);
+
+	hostel temp;
+	file1.read((char *)&temp, sizeof(temp));
+	bool flag = 0;
+	while (!file1.eof())
 	{
+		// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		if (temp.getname() == hostel_name)
+		{
+			flag = 1;
+			cout << "Contact at " << temp.info.get_plumber() << endl;
+		}
 
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
 		file1.read((char *)&temp, sizeof(temp));
-		bool flag = 0;
-		while (!file1.eof())
-		{
-			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
-			if (temp.getname() == hostel_name)
-			{
-				flag = 1;
-				cout <<"Contact at "<< temp.info.get_plumber() << endl;
-			
-			}
-
-			file1.read((char *)&temp, sizeof(temp));
-		}
-		if (flag == 0)
-		{
-			cout << "Hostel Not alloted" << endl;
-		}
-
-		file1.close();
 	}
+	if (flag == 0)
+	{
+		cout << "Hostel Not alloted" << endl;
+	}
+
+	file1.close();
+}
 
 void Cleaner(string hostel_name)
+{
+
+	ifstream file1;
+	file1.open("hostel.txt", ios::in);
+
+	hostel temp;
+	file1.read((char *)&temp, sizeof(temp));
+	bool flag = 0;
+	while (!file1.eof())
 	{
+		// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		if (temp.getname() == hostel_name)
+		{
+			flag = 1;
+			cout << "Contact at " << temp.info.get_cleaner() << endl;
+		}
 
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
 		file1.read((char *)&temp, sizeof(temp));
-		bool flag = 0;
-		while (!file1.eof())
-		{
-			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
-			if (temp.getname() == hostel_name)
-			{
-				flag = 1;
-				cout <<"Contact at "<< temp.info.get_cleaner() << endl;
-			
-			}
-
-			file1.read((char *)&temp, sizeof(temp));
-		}
-		if (flag == 0)
-		{
-			cout << "Hostel Not alloted" << endl;
-		}
-
-		file1.close();
 	}
+	if (flag == 0)
+	{
+		cout << "Hostel Not alloted" << endl;
+	}
+
+	file1.close();
+}
 
 void Furniture(string hostel_name)
+{
+
+	ifstream file1;
+	file1.open("hostel.txt", ios::in);
+
+	hostel temp;
+	file1.read((char *)&temp, sizeof(temp));
+	bool flag = 0;
+	while (!file1.eof())
 	{
+		if (temp.getname() == hostel_name)
+		{
+			flag = 1;
+			cout << "Status of almirah " << temp.stock.get_almirah() << endl;
+			cout << "Status of bed " << temp.stock.get_bed() << endl;
+			cout << "Status of chairs " << temp.stock.get_chair() << endl;
+			cout << "Status of tables " << temp.stock.get_tables() << endl;
+		}
 
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
 		file1.read((char *)&temp, sizeof(temp));
-		bool flag = 0;
-		while (!file1.eof())
-		{
-			if (temp.getname() == hostel_name)
-			{
-				flag = 1;
-				cout <<"Status of almirah "<< temp.stock.get_almirah()<< endl;
-				cout <<"Status of bed "<< temp.stock.get_bed()<< endl;
-				cout <<"Status of chairs "<< temp.stock.get_chair()<< endl;
-				cout <<"Status of tables "<< temp.stock.get_tables()<< endl;
-			
-			}
-
-			file1.read((char *)&temp, sizeof(temp));
-		}
-		if (flag == 0)
-		{
-			cout << "Hostel Not alloted" << endl;
-		}
-
-		file1.close();
 	}
+	if (flag == 0)
+	{
+		cout << "Hostel Not alloted" << endl;
+	}
+
+	file1.close();
+}
 
 int adminView();
 int studentView();
@@ -437,15 +461,17 @@ int countMyAttendance(string username);
 int adminView()
 {
 	int goBack = 0;
+	
 	while (1)
 	{
 		system("cls");
 		cout << "\n 1 Register a Student";
-		// cout<<"\n 2 Delete All students name registered";
+		cout << "\n 1 add hostelt";
+		cout << "\n 1 allot a hostel";
+		cout << "\n 1 allot a room";
 		cout << "\n 3 Delete student by rollno";
-		cout << "\n 4 Check List of Student registered by userame";
-		cout << "\n 5 Check presense count of any student by Roll No";
-		cout << "\n 6 Get List of student with their attendance count";
+		cout << "\n 4 Check List of Student registered";
+		cout<<"Enter Mess Bill"<<endl;
 		cout << "\n 0. Go Back <- \n";
 		int choice;
 		cout << "\n Enter you choice: ";
@@ -493,32 +519,6 @@ int studentLogin()
 	cout << "\n -------- Student Login ---------";
 	studentView();
 
-	return 0;
-}
-
-int adminLogin()
-{
-	// system("cls");
-	cout << "\n --------- Admin Login --------";
-	string username;
-	string password;
-	cout << "\n Enter username : ";
-	cin >> username;
-	cout << "\n Enter password : ";
-	cin >> password;
-
-	if (username == "ujjwal" && password == "jain")
-	{
-		adminView();
-		getchar();
-	}
-	else
-	{
-		cout << "\n Error ! Invalid Credintials..";
-		cout << "\n Press any key for main menu ";
-		getchar();
-		getchar();
-	}
 	return 0;
 }
 
@@ -620,7 +620,27 @@ int studentView()
 	cin >> username;
 	cout << "\n Enter password : ";
 	cin >> password;
-	int res = checkStudentCredentials(username, password);
+	int res = 0;
+
+	ifstream file1;
+	file1.open("student.txt", ios::in);
+
+	student temp;
+	file1.read((char *)&temp, sizeof(temp));
+
+	while (!file1.eof())
+	{
+
+		if (temp.get_user_id() == username && temp.get_password() == password)
+		{
+			res = 1;
+			break;
+		}
+
+		file1.read((char *)&temp, sizeof(temp));
+	}
+
+	file1.close();
 
 	if (res == 0)
 	{
@@ -635,33 +655,10 @@ int studentView()
 	while (1)
 	{
 		system("cls");
-		cout << "\n 1 Mark Attendance fo Today ";
-		cout << "\n 2 Count my Attendance";
-		cout << "\n 0. Go Back <- \n";
-		int choice;
-		cout << "\n Enter you choice: ";
-		cin >> choice;
+		goBack = temp.request_service();
 
-		switch (choice)
-		{
-		case 1:
-			markMyAttendance(username);
+		if (goBack == 0)
 			break;
-		case 2:
-			countMyAttendance(username);
-			break;
-		case 0:
-			goBack = 1;
-			break;
-		default:
-			cout << "\n Invalid choice. Enter again ";
-			getchar();
-		}
-
-		if (goBack == 1)
-		{
-			break;
-		}
 	}
 }
 
