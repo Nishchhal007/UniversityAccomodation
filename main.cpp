@@ -7,11 +7,10 @@
 
 using namespace std;
 
-class hostel;
 void Electrician(string);
 void Plumber(string);
 void Cleaner(string);
-
+void Furniture(string hostel_name);
 
 
 class student
@@ -112,13 +111,13 @@ public:
 			Electrician(hostel_name);
 			break;
 		case 4:
-			// complaint4();
+			Plumber(hostel_name);
 			break;
 		case 5:
-			// complaint4();
+			Cleaner(hostel_name);
 			break;
 		case 6:
-			// complaint4();
+			Furniture(hostel_name);
 			break;
 		case 7:
 			// complaint4();
@@ -129,13 +128,6 @@ public:
 		}
 	}
 };
-
-
-
-
-
-
-
 
 class admin
 {
@@ -308,7 +300,7 @@ public:
 };
 
 
-	void Electrician(string hostel_name)
+void Electrician(string hostel_name)
 	{
 
 		ifstream file1;
@@ -336,7 +328,8 @@ public:
 
 		file1.close();
 	}
-	void Plumber(string hostel_name)
+
+void Plumber(string hostel_name)
 	{
 
 		ifstream file1;
@@ -364,7 +357,8 @@ public:
 
 		file1.close();
 	}
-	void Cleaner(string hostel_name)
+
+void Cleaner(string hostel_name)
 	{
 
 		ifstream file1;
@@ -393,8 +387,36 @@ public:
 		file1.close();
 	}
 
+void Furniture(string hostel_name)
+	{
 
+		ifstream file1;
+		file1.open("hostel.txt", ios::in);
 
+		hostel temp;
+		file1.read((char *)&temp, sizeof(temp));
+		bool flag = 0;
+		while (!file1.eof())
+		{
+			if (temp.getname() == hostel_name)
+			{
+				flag = 1;
+				cout <<"Status of almirah "<< temp.stock.get_almirah()<< endl;
+				cout <<"Status of bed "<< temp.stock.get_bed()<< endl;
+				cout <<"Status of chairs "<< temp.stock.get_chair()<< endl;
+				cout <<"Status of tables "<< temp.stock.get_tables()<< endl;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		if (flag == 0)
+		{
+			cout << "Hostel Not alloted" << endl;
+		}
+
+		file1.close();
+	}
 
 int adminView();
 int studentView();
