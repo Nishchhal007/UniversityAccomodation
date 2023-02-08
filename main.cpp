@@ -87,7 +87,7 @@ public:
 
 
 
-	void request_service()
+	int request_service()
 	{
 
 		cout << "1.Get Your CIS ID" << endl;
@@ -103,27 +103,35 @@ public:
 		{
 		case 1:
 			get_CIS_id();
+			return 1;
 			break;
 		case 2:
 			// complaint2();
+			return 1;
 			break;
 		case 3:
 			Electrician(hostel_name);
+			return 1;
 			break;
 		case 4:
 			Plumber(hostel_name);
+			return 1;
 			break;
 		case 5:
 			Cleaner(hostel_name);
+			return 1;
 			break;
 		case 6:
 			Furniture(hostel_name);
+			return 1;
 			break;
 		case 7:
-			// complaint4();
+			
+			return 0;
 			break;
 
 		default:
+			cout<<"Invalid Choice"<<endl;
 			break;
 		}
 	}
@@ -620,7 +628,33 @@ int studentView()
 	cin >> username;
 	cout << "\n Enter password : ";
 	cin >> password;
-	int res = checkStudentCredentials(username, password);
+	int res=0;
+	
+	
+		ifstream file1;
+		file1.open("student.txt", ios::in);
+
+		student temp;
+		file1.read((char *)&temp , sizeof(temp));
+		
+		while (!file1.eof())
+		{
+			
+			if (temp.get_user_id() == username && temp.get_password()==password)
+			{
+				res = 1;
+				break;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		
+
+		file1.close();
+	
+	
+	
 
 	if (res == 0)
 	{
@@ -635,33 +669,10 @@ int studentView()
 	while (1)
 	{
 		system("cls");
-		cout << "\n 1 Mark Attendance fo Today ";
-		cout << "\n 2 Count my Attendance";
-		cout << "\n 0. Go Back <- \n";
-		int choice;
-		cout << "\n Enter you choice: ";
-		cin >> choice;
-
-		switch (choice)
-		{
-		case 1:
-			markMyAttendance(username);
-			break;
-		case 2:
-			countMyAttendance(username);
-			break;
-		case 0:
-			goBack = 1;
-			break;
-		default:
-			cout << "\n Invalid choice. Enter again ";
-			getchar();
-		}
-
-		if (goBack == 1)
-		{
-			break;
-		}
+		goBack = temp.request_service();
+		
+		if(goBack==0)
+		break;
 	}
 }
 
