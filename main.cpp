@@ -7,6 +7,8 @@
 
 using namespace std;
 
+class hostel;
+
 class student
 {
 	int reg_num;
@@ -67,6 +69,103 @@ public:
 		cout << "Fathers name:      " << name << endl;
 		cout << "Address of student:" << name << endl;
 	}
+	void get_CIS_id()
+	{
+		cout << "CIS ID - " << username << endl;
+		string pass;
+
+		for (int i = 0; i < 3; i++)
+		{
+			pass += name[i];
+		}
+		cout << "Password - " << pass << reg_num << endl;
+	}
+
+	void Electrician()
+	{
+
+		ifstream file1;
+		file1.open("hostel.txt", ios::in);
+
+		hostel temp;
+		file1.read((char *)&temp, sizeof(temp));
+		bool flag = 0;
+		while (!file1.eof())
+		{
+			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+			if (temp.getname() == hostel_name)
+			{
+				flag = 1;
+				cout <<"Contact at "<< temp.info.get_electrician() << endl;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		if (flag == 0)
+		{
+			cout << "Hostel Not alloted" << endl;
+		}
+
+		file1.close();
+	}
+	void Plumber()
+	{
+
+		ifstream file1;
+		file1.open("hostel.txt", ios::in);
+
+		hostel temp;
+		file1.read((char *)&temp, sizeof(temp));
+		bool flag = 0;
+		while (!file1.eof())
+		{
+			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+			if (temp.getname() == hostel_name)
+			{
+				flag = 1;
+				cout <<"Contact at "<< temp.info.get_plumber() << endl;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		if (flag == 0)
+		{
+			cout << "Hostel Not alloted" << endl;
+		}
+
+		file1.close();
+	}
+	void Cleaner()
+	{
+
+		ifstream file1;
+		file1.open("hostel.txt", ios::in);
+
+		hostel temp;
+		file1.read((char *)&temp, sizeof(temp));
+		bool flag = 0;
+		while (!file1.eof())
+		{
+			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+			if (temp.getname() == hostel_name)
+			{
+				flag = 1;
+				cout <<"Contact at "<< temp.info.get_cleaner() << endl;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		if (flag == 0)
+		{
+			cout << "Hostel Not alloted" << endl;
+		}
+
+		file1.close();
+	}
+
 	void request_service()
 	{
 
@@ -82,13 +181,13 @@ public:
 		switch (choice)
 		{
 		case 1:
-			// complaint1();
+			get_CIS_id();
 			break;
 		case 2:
 			// complaint2();
 			break;
 		case 3:
-			// complaint3();
+			Electrician();
 			break;
 		case 4:
 			// complaint4();
@@ -359,7 +458,7 @@ int studentLogin()
 
 int adminLogin()
 {
-	system("cls");
+	// system("cls");
 	cout << "\n --------- Admin Login --------";
 	string username;
 	string password;
