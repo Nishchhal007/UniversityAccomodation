@@ -8,6 +8,11 @@
 using namespace std;
 
 class hostel;
+void Electrician(string);
+void Plumber(string);
+void Cleaner(string);
+
+
 
 class student
 {
@@ -81,90 +86,7 @@ public:
 		cout << "Password - " << pass << reg_num << endl;
 	}
 
-	void Electrician()
-	{
 
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
-		file1.read((char *)&temp, sizeof(temp));
-		bool flag = 0;
-		while (!file1.eof())
-		{
-			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
-			if (temp.getname() == hostel_name)
-			{
-				flag = 1;
-				cout <<"Contact at "<< temp.info.get_electrician() << endl;
-			
-			}
-
-			file1.read((char *)&temp, sizeof(temp));
-		}
-		if (flag == 0)
-		{
-			cout << "Hostel Not alloted" << endl;
-		}
-
-		file1.close();
-	}
-	void Plumber()
-	{
-
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
-		file1.read((char *)&temp, sizeof(temp));
-		bool flag = 0;
-		while (!file1.eof())
-		{
-			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
-			if (temp.getname() == hostel_name)
-			{
-				flag = 1;
-				cout <<"Contact at "<< temp.info.get_plumber() << endl;
-			
-			}
-
-			file1.read((char *)&temp, sizeof(temp));
-		}
-		if (flag == 0)
-		{
-			cout << "Hostel Not alloted" << endl;
-		}
-
-		file1.close();
-	}
-	void Cleaner()
-	{
-
-		ifstream file1;
-		file1.open("hostel.txt", ios::in);
-
-		hostel temp;
-		file1.read((char *)&temp, sizeof(temp));
-		bool flag = 0;
-		while (!file1.eof())
-		{
-			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
-			if (temp.getname() == hostel_name)
-			{
-				flag = 1;
-				cout <<"Contact at "<< temp.info.get_cleaner() << endl;
-			
-			}
-
-			file1.read((char *)&temp, sizeof(temp));
-		}
-		if (flag == 0)
-		{
-			cout << "Hostel Not alloted" << endl;
-		}
-
-		file1.close();
-	}
 
 	void request_service()
 	{
@@ -187,7 +109,7 @@ public:
 			// complaint2();
 			break;
 		case 3:
-			Electrician();
+			Electrician(hostel_name);
 			break;
 		case 4:
 			// complaint4();
@@ -207,6 +129,13 @@ public:
 		}
 	}
 };
+
+
+
+
+
+
+
 
 class admin
 {
@@ -377,6 +306,95 @@ public:
 		return hostel_name;
 	}
 };
+
+
+	void Electrician(string hostel_name)
+	{
+
+		ifstream file1;
+		file1.open("hostel.txt", ios::in);
+
+		hostel temp;
+		file1.read((char *)&temp, sizeof(temp));
+		bool flag = 0;
+		while (!file1.eof())
+		{
+			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+			if (temp.getname() == hostel_name)
+			{
+				flag = 1;
+				cout <<"Contact at "<< temp.info.get_electrician() << endl;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		if (flag == 0)
+		{
+			cout << "Hostel Not alloted" << endl;
+		}
+
+		file1.close();
+	}
+	void Plumber(string hostel_name)
+	{
+
+		ifstream file1;
+		file1.open("hostel.txt", ios::in);
+
+		hostel temp;
+		file1.read((char *)&temp, sizeof(temp));
+		bool flag = 0;
+		while (!file1.eof())
+		{
+			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+			if (temp.getname() == hostel_name)
+			{
+				flag = 1;
+				cout <<"Contact at "<< temp.info.get_plumber() << endl;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		if (flag == 0)
+		{
+			cout << "Hostel Not alloted" << endl;
+		}
+
+		file1.close();
+	}
+	void Cleaner(string hostel_name)
+	{
+
+		ifstream file1;
+		file1.open("hostel.txt", ios::in);
+
+		hostel temp;
+		file1.read((char *)&temp, sizeof(temp));
+		bool flag = 0;
+		while (!file1.eof())
+		{
+			// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+			if (temp.getname() == hostel_name)
+			{
+				flag = 1;
+				cout <<"Contact at "<< temp.info.get_cleaner() << endl;
+			
+			}
+
+			file1.read((char *)&temp, sizeof(temp));
+		}
+		if (flag == 0)
+		{
+			cout << "Hostel Not alloted" << endl;
+		}
+
+		file1.close();
+	}
+
+
+
 
 int adminView();
 int studentView();
