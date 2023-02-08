@@ -7,6 +7,8 @@
 
 using namespace std;
 
+int num_student = 0;
+
 void Electrician(string);
 void Plumber(string);
 void Cleaner(string);
@@ -25,25 +27,26 @@ class student
 	int mess_bill;
 
 public:
+	student()
+	{
+		reg_num = -1;
+		room_no = -1;
+		mess_bill = 0;
+		username = "";
+		password = "";
+		hostel_name = "";
+	}
 	void set_info_of_student()
 	{
-		cout << "Enter roll no of student" << endl;
-		cin >> reg_num;
 		cout << "Enter name of student" << endl;
 		getline(cin, name);
 		cout << "Enter name of father of the student" << endl;
 		getline(cin, father_name);
-		cout << "Enter room no of student" << endl;
-		cin >> room_no;
 		cout << "Enter address of student" << endl;
 		getline(cin, address);
-		cout << "Enter name of Hostel" << endl;
-		getline(cin, hostel_name);
-		cout << "Enter student user id!" << endl;
-		getline(cin, username);
-		cout << "Enter password:" << endl;
-		getline(cin, password);
-		mess_bill = 0;
+		reg_num = ++num_student;
+		username = name.substr(0, 3) + to_string(reg_num);
+		password = name.substr(0, 2) + father_name.substr(0, 2) + to_string(reg_num);
 	}
 
 	int get_reg_num()
@@ -66,22 +69,17 @@ public:
 	void print_info()
 	{
 		cout << "Name of student:   " << name << endl;
-		cout << "Roll no of student:" << reg_num << endl;
+		cout << "Registration number of student:" << reg_num << endl;
 		cout << "Room no of student:" << room_no << endl;
-		cout << "Name of the hostel:" << name << endl;
-		cout << "Fathers name:      " << name << endl;
-		cout << "Address of student:" << name << endl;
+		cout << "Name of the hostel:" << hostel_name << endl;
+		cout << "Fathers name:      " << father_name << endl;
+		cout << "Address of student:" << address << endl;
 	}
 	void get_CIS_id()
 	{
 		cout << "CIS ID - " << username << endl;
-		string pass;
 
-		for (int i = 0; i < 3; i++)
-		{
-			pass += name[i];
-		}
-		cout << "Password - " << pass << reg_num << endl;
+		cout << "Password - " << get_password()<< endl;
 	}
 
 	int request_service()
@@ -461,17 +459,17 @@ int countMyAttendance(string username);
 int adminView()
 {
 	int goBack = 0;
-	
+
 	while (1)
 	{
 		system("cls");
 		cout << "\n 1 Register a Student";
 		cout << "\n 1 add hostelt";
 		cout << "\n 1 allot a hostel";
-		cout << "\n 1 allot a room";
-		cout << "\n 3 Delete student by rollno";
-		cout << "\n 4 Check List of Student registered";
-		cout<<"Enter Mess Bill"<<endl;
+		cout << "\n 3 Delete student";
+		cout << "set warden" << endl;
+		cout << "\n 4 Student List";
+		cout << "Enter Mess Bill" << endl;
 		cout << "\n 0. Go Back <- \n";
 		int choice;
 		cout << "\n Enter you choice: ";
@@ -742,78 +740,61 @@ int checkListOfStudentsRegistered()
 
 int registerStudent()
 {
-	cout << "\n ----- Form to Register Student ---- \n";
+	cout << "\n ----- Student Registration Form ---- \n";
 
-	string name, username, password, rollno, address, father, mother;
 	getchar();
-	char names[50];
-	cout << "\n Enter Name : ";
-	cin.getline(names, 50);
-	name = names;
-	cout << "\n Enter Username : ";
-	cin >> username;
-	cout << "\n Enter password : ";
-	cin >> password;
-	cout << "\n Enter rollno : ";
-	cin >> rollno;
-	getchar();
+	student s;
+	s.set_info_of_student();
 
-	char add[100];
-	cout << "\n Enter address : ";
-	cin.getline(add, 100);
-	cout << "\n Enter father : ";
-	cin >> father;
-	cout << "\n Enter mother : ";
-	cin >> mother;
-	ifstream read;
-	read.open("db.dat");
+	ifstream file;
+	file.open("student.txt", ios::app);
 
-	if (read)
-	{
-		int recordFound = 0;
-		string line;
-		while (getline(read, line))
-		{
-			if (line == username + ".dat")
-			{
-				recordFound = 1;
-				break;
-			}
-		}
-		if (recordFound == 1)
-		{
-			cout << "\n Username already Register. Please choose another username ";
-			getchar();
-			getchar();
-			read.close();
-			return 0;
-		}
-	}
-	read.close();
+	// if (file)
+	// {
+	// 	int recordFound = 0;
+	// 	string line;
+	// 	while (getline(read, line))
+	// 	{
+	// 		if (line == username + ".dat")
+	// 		{
+	// 			recordFound = 1;
+	// 			break;
+	// 		}
+	// 	}
+	// 	if (recordFound == 1)
+	// 	{
+	// 		cout << "\n Username already Register. Please choose another username ";
+	// 		getchar();
+	// 		getchar();
+	// 		read.close();
+	// 		return 0;
+	// 	}
+	// }
+	// read.close();
 
-	ofstream out;
-	out.open("db.dat", ios::app);
-	out << username + ".dat"
-		<< "\n";
-	out.close();
+	// ofstream out;
+	// out.open("db.dat", ios::app);
+	// out << username + ".dat"
+	// 	<< "\n";
+	// out.close();
 
-	ofstream out1;
-	string temp = username + ".dat";
-	out1.open(temp.c_str());
-	out1 << name << "\n";
-	out1 << username << "\n";
-	out1 << password << "\n";
-	out1 << rollno << "\n";
-	out1 << add << "\n";
-	out1 << father << "\n";
-	out1 << mother << "\n";
-	out1.close();
+	// ofstream out1;
+	// string temp = username + ".dat";
+	// out1.open(temp.c_str());
+	// out1 << name << "\n";
+	// out1 << username << "\n";
+	// out1 << password << "\n";
+	// out1 << rollno << "\n";
+	// out1 << add << "\n";
+	// out1 << father << "\n";
+	// out1 << mother << "\n";
+	// out1.close();
 
-	cout << "\n Student Registered Successfully !!";
+	// cout << "\n Student Registered Successfully !!";
 
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
+	// cout << "\n Please any key to continue..";
+	// getchar();
+	// getchar();
 	return 0;
 }
 
