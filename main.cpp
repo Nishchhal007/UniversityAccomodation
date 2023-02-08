@@ -79,7 +79,7 @@ public:
 	{
 		cout << "CIS ID - " << username << endl;
 
-		cout << "Password - " << get_password()<< endl;
+		cout << "Password - " << get_password() << endl;
 	}
 
 	int request_service()
@@ -128,36 +128,6 @@ public:
 		default:
 			cout << "Invalid Choice" << endl;
 			break;
-		}
-	}
-};
-
-class admin
-{
-	string username;
-	string password;
-
-public:
-	admin()
-	{
-		username = "admin";
-		password = "anuy";
-	}
-
-	bool admin_login(string u, string p)
-	{
-		if (username == u && password == p)
-		{
-			adminView();
-			return 1;
-		}
-		else
-		{
-			cout << "\n Error ! Invalid Credintials.." << endl;
-			cout << "\n Press any key for main menu " << endl;
-			getchar();
-			getchar();
-			return 0;
 		}
 	}
 };
@@ -443,18 +413,10 @@ void Furniture(string hostel_name)
 int adminView();
 int studentView();
 int studentLogin();
-int checkCredentials(string userName, string password);
-int getAllStudentsbyRollNo();
-int deleteAllStudents();
+// int checkCredentials(string userName, string password);
 int deleteStudentbyRollno();
-int checkListOfStudentsRegistered();
-int checkPresenseCountbyRollno();
 int getListOfStudentsWithTheirPresenseCount();
-int registerStudent();
-int adminLogin();
-int registerStudent();
-int markMyAttendance(string username);
-int countMyAttendance(string username);
+void registerstudent();
 
 int adminView()
 {
@@ -478,7 +440,7 @@ int adminView()
 		switch (choice)
 		{
 		case 1:
-			registerStudent();
+			registerstudent();
 			break;
 		case 2:
 			deleteAllStudents();
@@ -510,6 +472,42 @@ int adminView()
 	}
 	return 0;
 }
+
+class admin
+{
+	string username;
+	string password;
+
+public:
+	admin()
+	{
+		username = "admin";
+		password = "anuy";
+	}
+
+	bool admin_login()
+	{
+		string u;
+		string p;
+		cout << "\n Enter username : ";
+		cin >> u;
+		cout << "\n Enter password : ";
+		cin >> p;
+		if (username == u && password == p)
+		{
+			adminView();
+			return 1;
+		}
+		else
+		{
+			cout << "\n Error ! Invalid Credintials.." << endl;
+			cout << "\n Press any key for main menu " << endl;
+			getchar();
+			getchar();
+			return 0;
+		}
+	}
+};
 
 int studentLogin()
 {
@@ -738,7 +736,7 @@ int checkListOfStudentsRegistered()
 	return 0;
 }
 
-int registerStudent()
+void registerstudent()
 {
 	cout << "\n ----- Student Registration Form ---- \n";
 
@@ -746,56 +744,12 @@ int registerStudent()
 	student s;
 	s.set_info_of_student();
 
-	ifstream file;
+	ofstream file;
 	file.open("student.txt", ios::app);
 
-	// if (file)
-	// {
-	// 	int recordFound = 0;
-	// 	string line;
-	// 	while (getline(read, line))
-	// 	{
-	// 		if (line == username + ".dat")
-	// 		{
-	// 			recordFound = 1;
-	// 			break;
-	// 		}
-	// 	}
-	// 	if (recordFound == 1)
-	// 	{
-	// 		cout << "\n Username already Register. Please choose another username ";
-	// 		getchar();
-	// 		getchar();
-	// 		read.close();
-	// 		return 0;
-	// 	}
-	// }
-	// read.close();
+	file.write((char *)&s, sizeof(s));
 
-	// ofstream out;
-	// out.open("db.dat", ios::app);
-	// out << username + ".dat"
-	// 	<< "\n";
-	// out.close();
-
-	// ofstream out1;
-	// string temp = username + ".dat";
-	// out1.open(temp.c_str());
-	// out1 << name << "\n";
-	// out1 << username << "\n";
-	// out1 << password << "\n";
-	// out1 << rollno << "\n";
-	// out1 << add << "\n";
-	// out1 << father << "\n";
-	// out1 << mother << "\n";
-	// out1.close();
-
-	// cout << "\n Student Registered Successfully !!";
-
-	// cout << "\n Please any key to continue..";
-	// getchar();
-	// getchar();
-	return 0;
+	file.close();
 }
 
 void check_hostel()
@@ -818,6 +772,7 @@ void title();
 int main()
 {
 	title();
+	admin a;
 	while (1)
 	{
 		system("cls");
@@ -838,7 +793,8 @@ int main()
 			studentLogin();
 			break;
 		case 2:
-			adminLogin();
+
+			a.admin_login();
 			break;
 		case 0:
 			while (1)
