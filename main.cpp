@@ -12,7 +12,7 @@ void Plumber(string);
 void Cleaner(string);
 void Furniture(string hostel_name);
 void check_hostel();
-void AllotHostel();
+void AllotHostel(int);
 
 class student
 {
@@ -58,6 +58,20 @@ public:
 		string str1;
 		str1 = get_name_of_student().substr(0, 2) + get_father_name_of_student().substr(0, 2) + to_string(reg_num);
 		strncpy(password, str1.c_str(), sizeof(password));
+	}
+	
+	bool set_hostel()
+	{
+		if(strcmp(hostel_name, "NA")==0)
+		{
+			check_hostel();
+			cout<<"Enter Hostel Name - ";
+			cin>>hostel_name;
+			return 1;
+			
+		}
+		else return 0;
+		
 	}
 
 	int get_reg_num()
@@ -595,7 +609,10 @@ int adminView()
 			AddHostel();
 			break;
 		case 4:
-			// AllotHostel();
+			cout<<"Enter Registration number of the Student - ";
+			int k;
+			cin>>k;
+			AllotHostel(k);
 			break;
 		case 3:
 			check_hostel();
@@ -835,8 +852,37 @@ void check_hostel()
 	}
 	file1.close();
 }
-void AllotHostel()
+void AllotHostel(int reg)
 {
+	fstream file1;
+	file1.open("student.txt", ios::in | ios::out);
+
+	student s;
+	int i=0;
+	file1.read((char *)&s, sizeof(s));
+
+	while (!file1.eof())
+	{
+		
+		if(s.get_reg_num()==reg)
+		{
+			if(s.set_hostel())
+			{
+				cout<<"Successfully Alloted\n";
+				file1.seekp(sizeof(s)*i);
+				file1.write((char*)&s, sizeof(s));
+				break;
+			}
+			else
+			cout<<"Already Alloted\n";
+			
+		}
+		
+//		temp.print_hostel_info();
+		file1.read((char *)&s, sizeof(s));
+		i++;
+	}
+	file1.close();
 }
 
 void title();
