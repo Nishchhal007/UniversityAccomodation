@@ -733,7 +733,7 @@ int wardenView()
             int num;
             cout << "Enter Registration Number : ";
             cin >> num;
-
+            s_var = 0;
             file2.read((char *)&temp, sizeof(temp));
 
             while (!file2.eof())
@@ -1047,6 +1047,7 @@ bool check_warden_credentials()
 }
 
 void title();
+
 int main()
 {
     admin a;
