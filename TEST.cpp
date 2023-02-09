@@ -1,0 +1,819 @@
+#include <bits/stdc++.h>
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+#include <fstream>
+#include <cstring>
+
+using namespace std;
+
+int num_student = 0;
+
+void Electrician(string);
+void Plumber(string);
+void Cleaner(string);
+void Furniture(string hostel_name);
+
+class student
+{
+    int reg_num;
+    char name[32];
+    char father_name[32];
+    int room_no;
+    char address[32];
+    char hostel_name[32];
+    char username[32];
+    char password[32];
+    int mess_bill;
+
+public:
+    student()
+    {
+        reg_num = -1;
+        room_no = -1;
+        mess_bill = 0;
+    }
+
+    // std::string str = "Hello";
+    // char char_array[100];
+    // strncpy(char_array, str.c_str(), sizeof(char_array));
+    // char_array[sizeof(char_array) - 1] = '\0';
+
+    void set_info_of_student()
+    {
+        cout << "Enter name of student" << endl;
+        cin.getline(name, 32);
+        cout << "Enter name of father of the student" << endl;
+        cin.getline(father_name, 32);
+        cout << "Enter address of student" << endl;
+        cin.getline(address, 32);
+        reg_num = ++num_student;
+
+        //Converting str to char array
+        string str;
+        str = get_name_of_student().substr(0, 3) + to_string(reg_num);
+        strncpy(username, str.c_str(), sizeof(username));
+        
+        //Converting str to char array
+        string str1;
+        str1 = get_name_of_student().substr(0, 2) + get_father_name_of_student().substr(0, 2) + to_string(reg_num);
+        strncpy(password, str1.c_str(), sizeof(password));
+    }
+
+    int get_reg_num()
+    {
+        return reg_num;
+    }
+
+    string get_name_of_student()
+    {
+        string str(name);
+        return str;
+    }
+    string get_father_name_of_student()
+    {
+        string str(father_name);
+        return str;
+    }
+    string get_user_id()
+    {
+        string str(username);
+        return str;
+    }
+    string get_password()
+    {
+        string str(password);
+        return str;
+    }
+    string get_address()
+    {
+        string str(address);
+        return str;
+    }
+    void print_info()
+    {
+        cout << "Name of student:   " << name << endl;
+        cout << "Registration number of student:" << reg_num << endl;
+        cout << "Room no of student:" << room_no << endl;
+        cout << "Name of the hostel:" << hostel_name << endl;
+        cout << "Fathers name:      " << father_name << endl;
+        cout << "Address of student:" << address << endl;
+    }
+    void get_CIS_id()
+    {
+        cout << "USER ID - " << username << endl;
+
+        cout << "Password - " << get_password() << endl;
+    }
+
+    int request_service()
+    {
+
+        cout << "1.Get Your CIS ID" << endl;
+        cout << "2.View Mess Bill" << endl;
+        cout << "3 for Electrician" << endl;
+        cout << "4 for Plumber" << endl;
+        cout << "5 for Room Cleaning" << endl;
+        cout << "6 for Furniture" << endl;
+        cout << "7 for exit" << endl;
+        int choice;
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            get_CIS_id();
+            return 1;
+            break;
+        case 2:
+            // complaint2();
+            return 1;
+            break;
+        case 3:
+            Electrician(hostel_name);
+            return 1;
+            break;
+        case 4:
+            Plumber(hostel_name);
+            return 1;
+            break;
+        case 5:
+            Cleaner(hostel_name);
+            return 1;
+            break;
+        case 6:
+            Furniture(hostel_name);
+            return 1;
+            break;
+        case 7:
+
+            return 0;
+            break;
+
+        default:
+            cout << "Invalid Choice" << endl;
+            break;
+        }
+    }
+};
+
+class hostel_info
+{
+    string Electrician;
+    string Plumber;
+    string Cleaner;
+
+public:
+    hostel_info()
+    {
+    }
+    string get_electrician()
+    {
+        return Electrician;
+    }
+    string get_plumber()
+    {
+        return Plumber;
+    }
+    string get_cleaner()
+    {
+        return Cleaner;
+    }
+
+    void set_info()
+    {
+        cout << "Enter Electrician's Contact - ";
+        cin >> Electrician;
+        cout << "Enter Plumber's Contact - ";
+        cin >> Plumber;
+        cout << "Enter Cleaner's Contact - ";
+        cin >> Cleaner;
+    }
+};
+
+class inventory
+{
+    int num_of_tables;
+    int num_of_bed;
+    int num_of_chair;
+    int num_of_almirah;
+
+public:
+    inventory()
+    {
+        set_tables(5);
+        set_almirah(5);
+        set_bed(5);
+        set_chair(5);
+    }
+    int get_tables()
+    {
+        return num_of_tables;
+    }
+    int get_bed()
+    {
+        return num_of_bed;
+    }
+    int get_chair()
+    {
+        return num_of_chair;
+    }
+    int get_almirah()
+    {
+        return num_of_almirah;
+    }
+    int set_tables(int x)
+    {
+        num_of_tables = x;
+    }
+    int set_bed(int x)
+    {
+        num_of_bed = x;
+    }
+    int set_chair(int x)
+    {
+        num_of_chair = x;
+    }
+    int set_almirah(int x)
+    {
+        num_of_almirah = x;
+    }
+};
+
+class room
+{
+
+    int capacity;
+    int occupancy;
+    student *residents;
+
+public:
+    room()
+    {
+        setcapacity();
+    }
+
+    int get_vacancy()
+    {
+        return capacity - occupancy;
+    }
+
+    void setcapacity(int x = 2)
+    {
+        residents = new student[x];
+        capacity = x;
+        occupancy = 0;
+    }
+
+    void addstudent(student s)
+    {
+
+        if (occupancy < capacity)
+        {
+            residents[occupancy] = s;
+            occupancy++;
+        }
+        else
+        {
+            cout << "Room already full\n";
+        }
+    }
+
+    void deletestudent(int roll)
+    {
+        int flag = 0;
+        for (int i = 0; i < occupancy; i++)
+        {
+            if (residents[i].get_reg_num() == roll)
+            {
+                // residents[i].set_reg_num(-1);
+                flag = 1;
+                occupancy--;
+                break;
+            }
+            if (flag == 0)
+                cout << "Student does not exist in this room\n";
+            else
+            {
+                cout << "Deleted Successfully\n";
+            }
+        }
+    }
+};
+
+class hostel
+{
+    string hostel_name;
+
+    room room_list[10];
+
+public:
+    inventory stock;
+    hostel_info info;
+
+    hostel()
+    {
+        cout << "Enter Hostel Name - ";
+        cin >> hostel_name;
+        info.set_info();
+    }
+
+    int check_vacancy()
+    {
+        int vacancy = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            vacancy += room_list[i].get_vacancy();
+        }
+        return vacancy;
+    }
+    string getname()
+    {
+        return hostel_name;
+    }
+};
+
+void Electrician(string hostel_name)
+{
+
+    ifstream file1;
+    file1.open("hostel.txt", ios::in);
+
+    hostel temp;
+    file1.read((char *)&temp, sizeof(temp));
+    bool flag = 0;
+    while (!file1.eof())
+    {
+
+        if (temp.getname() == hostel_name)
+        {
+            flag = 1;
+            cout << "Contact at " << temp.info.get_electrician() << endl;
+        }
+
+        file1.read((char *)&temp, sizeof(temp));
+    }
+    if (flag == 0)
+    {
+        cout << "Hostel Not alloted" << endl;
+    }
+
+    file1.close();
+}
+
+void Plumber(string hostel_name)
+{
+
+    ifstream file1;
+    file1.open("hostel.txt", ios::in);
+
+    hostel temp;
+    file1.read((char *)&temp, sizeof(temp));
+    bool flag = 0;
+    while (!file1.eof())
+    {
+
+        if (temp.getname() == hostel_name)
+        {
+            flag = 1;
+            cout << "Contact at " << temp.info.get_plumber() << endl;
+        }
+
+        file1.read((char *)&temp, sizeof(temp));
+    }
+    if (flag == 0)
+    {
+        cout << "Hostel Not alloted" << endl;
+    }
+
+    file1.close();
+}
+
+void Cleaner(string hostel_name)
+{
+
+    ifstream file1;
+    file1.open("hostel.txt", ios::in);
+
+    hostel temp;
+    file1.read((char *)&temp, sizeof(temp));
+    bool flag = 0;
+    while (!file1.eof())
+    {
+
+        if (temp.getname() == hostel_name)
+        {
+            flag = 1;
+            cout << "Contact at " << temp.info.get_cleaner() << endl;
+        }
+
+        file1.read((char *)&temp, sizeof(temp));
+    }
+    if (flag == 0)
+    {
+        cout << "Hostel Not alloted" << endl;
+    }
+
+    file1.close();
+}
+
+void Furniture(string hostel_name)
+{
+
+    ifstream file1;
+    file1.open("hostel.txt", ios::in);
+
+    hostel temp;
+    file1.read((char *)&temp, sizeof(temp));
+    bool flag = 0;
+    while (!file1.eof())
+    {
+        if (temp.getname() == hostel_name)
+        {
+            flag = 1;
+            cout << "Status of almirah " << temp.stock.get_almirah() << endl;
+            cout << "Status of bed " << temp.stock.get_bed() << endl;
+            cout << "Status of chairs " << temp.stock.get_chair() << endl;
+            cout << "Status of tables " << temp.stock.get_tables() << endl;
+        }
+
+        file1.read((char *)&temp, sizeof(temp));
+    }
+    if (flag == 0)
+    {
+        cout << "Hostel Not alloted" << endl;
+    }
+
+    file1.close();
+}
+
+int adminView();
+int studentView();
+int studentLogin();
+
+int deleteStudentbyRollno();
+int getListOfStudentsWithTheirPresenseCount();
+void registerstudent();
+
+void AddHostel()
+{
+    hostel h;
+
+    ofstream file;
+    file.open("hostel.txt", ios::app);
+
+    file.write((char *)&h, sizeof(h));
+
+    file.close();
+}
+
+void ListofStudent()
+{
+    ifstream file1;
+    file1.open("student.txt", ios::in);
+
+    student temp;
+    file1.read((char *)&temp, sizeof(temp));
+
+    while (!file1.eof())
+    {
+
+        temp.print_info();
+        temp.get_CIS_id();
+
+        file1.read((char *)&temp, sizeof(temp));
+    }
+
+    file1.close();
+}
+
+int adminView()
+{
+    int goBack = 0;
+
+    while (1)
+    {
+        system("cls");
+        cout << "\n 1 Register a Student";
+        cout << "\n 2 Add Hostel";
+        cout << "\n 3 Allot hostel to a Student";
+        cout << "\n 4 Delete student";
+        cout << "\n 5 Set Warden's Login";
+        cout << "\n 6 Student's List";
+        cout << "\n 7 Update Mess Bill";
+        cout << "\n 0. Go Back <- \n";
+        int choice;
+        cout << "\n Enter you choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            registerstudent();
+            break;
+        case 2:
+            AddHostel();
+            break;
+        case 3:
+            deleteStudentbyRollno();
+            break;
+        case 4:
+            //			checkListOfStudentsRegistered();
+            break;
+        case 5:
+            //			checkPresenseCountbyRollno();
+            break;
+        case 6:
+            ListofStudent();
+            getchar();
+            getchar();
+            break;
+        case 0:
+            goBack = 1;
+            break;
+        default:
+            cout << "\n Invalid choice. Enter again ";
+            getchar();
+        }
+
+        if (goBack == 1)
+        {
+            break;
+        }
+    }
+    return 0;
+}
+
+class admin
+{
+    string username;
+    string password;
+
+public:
+    admin()
+    {
+        username = "admin";
+        password = "anuy";
+    }
+
+    admin(string uname, string pass)
+    {
+        username = uname;
+        password = pass;
+    }
+
+    bool admin_login()
+    {
+        string u;
+        string p;
+        cout << "\n Enter username : ";
+        cin >> u;
+        cout << "\n Enter password : ";
+        cin >> p;
+        if (username == u && password == p)
+        {
+            adminView();
+            return 1;
+        }
+        else
+        {
+            cout << "\n Error ! Invalid Credintials.." << endl;
+            cout << "\n Press any key for main menu " << endl;
+            getchar();
+            getchar();
+            return 0;
+        }
+    }
+};
+
+int studentLogin()
+{
+    system("cls");
+    cout << "\n -------- Student Login ---------";
+    studentView();
+
+    return 0;
+}
+
+int getAllStudentsbyName()
+{
+    cout << "\n List of All Students by their Name \n";
+    cout << "\n Please any key to continue..";
+    getchar();
+    getchar();
+    return 0;
+}
+
+int getAllStudentsbyRollNo()
+{
+    cout << "\n List of All Students by their Roll No \n";
+    cout << "\n Please any key to continue..";
+    getchar();
+    getchar();
+    return 0;
+}
+
+int deleteStudentbyRollno()
+{
+    cout << "\n Delete any Student by their Roll No \n";
+    // int status;
+    // string username;
+    // cin>>username;
+    //     char fileName[100] = username + ".dat";
+    //     //cout<<"Enter the Name of File: ";
+    //     // cin>>fileName;
+    //     status = remove(fileName);
+    //     if(status==0)
+    //         cout<<"\nFile Deleted Successfully!";
+    //     else
+    //         cout<<"\nError Occurred!";
+    //     cout<<endl;
+    //     return 0;
+    cout << "\n Please any key to continue..";
+    getchar();
+    getchar();
+    return 0;
+}
+
+int studentView()
+{
+    cout << "\n ------- Student Login-------- \n";
+    string username, password;
+    cout << "\n Enter username : ";
+    cin >> username;
+    cout << "\n Enter password : ";
+    cin >> password;
+    int res = 0;
+
+    ifstream file1;
+    file1.open("student.txt", ios::in);
+
+    student temp;
+    file1.read((char *)&temp, sizeof(temp));
+
+    while (!file1.eof())
+    {
+
+        if ((temp.get_user_id().compare(username) == 0) && (temp.get_password().compare(password) == 0))
+        {
+            res = 1;
+            break;
+        }
+
+        file1.read((char *)&temp, sizeof(temp));
+    }
+
+    file1.close();
+
+    if (res == 0)
+    {
+        cout << "\n Invalid Credentials !!";
+        cout << "\n Press any key for Main Menu..";
+        getchar();
+        getchar();
+        return 0;
+    }
+
+    int goBack = 0;
+    while (1)
+    {
+        system("cls");
+        goBack = temp.request_service();
+
+        if (goBack == 0)
+            break;
+    }
+}
+
+int checkListOfStudentsRegistered()
+{
+    cout << "\n - Check List of Student Registered by Username-- ";
+    ifstream read;
+    read.open("db.dat");
+
+    if (read)
+    {
+        int recordFound = 0;
+        string line;
+        while (getline(read, line))
+        {
+            char name[100];
+            strcpy(name, line.c_str());
+            char onlyname[100];
+            strncpy(onlyname, name, (strlen(name) - 4));
+            cout << " \n " << onlyname;
+        }
+        read.close();
+    }
+    else
+    {
+        cout << "\n No Record found :(";
+    }
+
+    cout << "\n Please any key to continue..";
+    getchar();
+    getchar();
+    return 0;
+}
+
+void registerstudent()
+{
+    cout << "\n ----- Student Registration Form ---- \n";
+
+    getchar();
+    student s;
+    s.set_info_of_student();
+    cout << endl;
+    s.print_info();
+    s.get_CIS_id();
+    getchar();
+    ofstream file;
+    file.open("student.txt", ios::app);
+
+    file.write((char *)&s, sizeof(s));
+
+    file.close();
+}
+
+void check_hostel()
+{
+
+    ifstream file1;
+    file1.open("hostel.txt", ios::in);
+
+    hostel temp;
+    file1.read((char *)&temp, sizeof(temp));
+
+    while (!file1.eof())
+    {
+        cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+        file1.read((char *)&temp, sizeof(temp));
+    }
+    file1.close();
+}
+void title();
+int main()
+{
+    title();
+    admin a;
+    while (1)
+    {
+        system("cls");
+        cout << "\n University Accomodation Handling System \n";
+        cout << "*************\n\n";
+
+        cout << "1. Hostel Student Login\n";
+        cout << "2. Hostel Administrator Login\n";
+
+        cout << "0. Exit\n";
+        int choice;
+
+        cout << "\n Enter you choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            studentLogin();
+            break;
+        case 2:
+
+            a.admin_login();
+            break;
+        case 0:
+            while (1)
+            {
+                system("cls");
+                cout << "\n Are you sure, you want to exit? y | n \n";
+                char ex;
+                cin >> ex;
+                if (ex == 'y' || ex == 'Y')
+                    exit(0);
+                else if (ex == 'n' || ex == 'N')
+                {
+                    break;
+                }
+                else
+                {
+                    cout << "\n Invalid choice !!!";
+                    getchar();
+                }
+            }
+            break;
+
+        default:
+            cout << "\n Invalid choice. Enter again ";
+            getchar();
+        }
+    }
+    return 0;
+}
+
+void title()
+{
+    printf("\n");
+    printf("\t\t\t\t\t");
+    printf("\n");
+    printf("\t\t\t\t    ----------------------------------\n");
+    printf("\t\t\t\t    | University Accomodation Handling |\n");
+    printf("\t\t\t\t    ----------------------------------\n");
+    printf("\n");
+}

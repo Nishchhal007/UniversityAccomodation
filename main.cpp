@@ -11,6 +11,8 @@ void Electrician(string);
 void Plumber(string);
 void Cleaner(string);
 void Furniture(string hostel_name);
+void check_hostel();
+void AllotHostel();
 
 class student
 {
@@ -76,6 +78,11 @@ public:
 	string get_user_id()
 	{
 		string str(username);
+		return str;
+	}
+	string get_hostel()
+	{
+		string str(hostel_name);
 		return str;
 	}
 	string get_password()
@@ -156,9 +163,9 @@ public:
 
 class hostel_info
 {
-	string Electrician;
-	string Plumber;
-	string Cleaner;
+	char Electrician[32];
+	char Plumber[32];
+	char Cleaner[32];
 
 public:
 	hostel_info()
@@ -166,18 +173,21 @@ public:
 	}
 	string get_electrician()
 	{
-		return Electrician;
+		string str(Electrician);
+		return str;
 	}
 	string get_plumber()
 	{
-		return Plumber;
+		string str(Plumber);
+		return str;
 	}
 	string get_cleaner()
 	{
-		return Cleaner;
+		string str(Cleaner);
+		return str;
 	}
 
-	void set_info()
+	void set_services_info()
 	{
 		cout << "Enter Electrician's Contact - ";
 		cin >> Electrician;
@@ -185,6 +195,16 @@ public:
 		cin >> Plumber;
 		cout << "Enter Cleaner's Contact - ";
 		cin >> Cleaner;
+	}
+	void get_services_info()
+	{
+		cout << "\nServices Info"
+			 << endl;
+		cout << "Electrician's Contact - " << get_electrician() << endl;
+
+		cout << "Plumber's Contact - " << get_plumber() << endl;
+
+		cout << "Cleaner's Contact - " << get_cleaner() << endl;
 	}
 };
 
@@ -298,21 +318,52 @@ public:
 	}
 };
 
+class warden
+{
+	char uname[32];
+	char password[32];
+
+public:
+	void set_warden()
+	{
+		cout << "Enter warden username - ";
+		cin >> uname;
+		cout << "Enter Password - ";
+		cin >> password;
+	}
+	string get_warden_uname()
+	{
+		string str(uname);
+		return str;
+	}
+	string get_warden_password()
+	{
+		string str(password);
+		return str;
+	}
+};
+
 class hostel
 {
-	string hostel_name;
+	char hostel_name[32];
+	char warden_name[32];
 
 	room room_list[10];
 
 public:
 	inventory stock;
 	hostel_info info;
+	warden w;
 
-	hostel()
+
+	void set_hostel_info()
 	{
 		cout << "Enter Hostel Name - ";
 		cin >> hostel_name;
-		info.set_info();
+		cout << "Enter Hostel's Warden Name - ";
+		cin >> warden_name;
+		w.set_warden();
+		info.set_services_info();
 	}
 
 	int check_vacancy()
@@ -326,8 +377,18 @@ public:
 	}
 	string getname()
 	{
-		return hostel_name;
+		string str(hostel_name);
+		return str;
 	}
+
+	void print_hostel_info()
+	{
+		cout << "Name of Hostel: " << getname() << endl;
+		cout << "Username of the warden : " << w.get_warden_uname() << endl;
+		cout << "Password : " << w.get_warden_password() << endl;
+		info.get_services_info();
+	}
+	friend class warden;
 };
 
 void Electrician(string hostel_name)
@@ -444,17 +505,37 @@ void Furniture(string hostel_name)
 	file1.close();
 }
 
+void HostelList()
+{
+	ifstream file1;
+	file1.open("hostel.txt", ios::in);
+
+	hostel temp;
+	file1.read((char *)&temp, sizeof(temp));
+
+	while (!file1.eof())
+	{
+
+		temp.print_hostel_info();
+
+		file1.read((char *)&temp, sizeof(temp));
+		cout << "\n\n"
+			 << endl;
+	}
+	file1.close();
+}
+
 int adminView();
 int studentView();
 int studentLogin();
 
 int deleteStudentbyRollno();
-int getListOfStudentsWithTheirPresenseCount();
 void registerstudent();
 
 void AddHostel()
 {
 	hostel h;
+	h.set_hostel_info();
 
 	ofstream file;
 	file.open("hostel.txt", ios::app);
@@ -479,9 +560,11 @@ void ListofStudent()
 		temp.get_CIS_id();
 
 		file1.read((char *)&temp, sizeof(temp));
-		cout << "\n\n"<< endl;
+		cout << "\n\n"
+			 << endl;
 	}
-	cout << "\n\n"<< endl;
+	cout << "\n\n"
+		 << endl;
 	file1.close();
 }
 
@@ -494,11 +577,10 @@ int adminView()
 		system("cls");
 		cout << "\n 1 Register a Student";
 		cout << "\n 2 Add Hostel";
-		cout << "\n 3 Allot hostel to a Student";
-		cout << "\n 4 Delete student";
-		cout << "\n 5 Set Warden's Login";
+		cout << "\n 3 List of Hostels";
+		cout << "\n 4 Allot hostel to a Student";
 		cout << "\n 6 Student's List";
-		cout << "\n 7 Update Mess Bill";
+		cout << "\n 7 Delete student";
 		cout << "\n 0. Go Back <- \n";
 		int choice;
 		cout << "\n Enter you choice: ";
@@ -512,11 +594,13 @@ int adminView()
 		case 2:
 			AddHostel();
 			break;
-		case 3:
-			deleteStudentbyRollno();
-			break;
 		case 4:
-			//			checkListOfStudentsRegistered();
+			// AllotHostel();
+			break;
+		case 3:
+			check_hostel();
+			getchar();
+			getchar();
 			break;
 		case 5:
 			//			checkPresenseCountbyRollno();
@@ -526,6 +610,7 @@ int adminView()
 			getchar();
 			getchar();
 			break;
+
 		case 0:
 			goBack = 1;
 			break;
@@ -744,19 +829,24 @@ void check_hostel()
 
 	while (!file1.eof())
 	{
-		cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		cout << "\n\n"<<temp.getname() << "--> " << temp.check_vacancy() << endl;
+		temp.print_hostel_info();
 		file1.read((char *)&temp, sizeof(temp));
 	}
 	file1.close();
 }
+void AllotHostel()
+{
+}
+
 void title();
 int main()
 {
-	title();
 	admin a;
 	while (1)
 	{
 		system("cls");
+		title();
 		cout << "\n University Accomodation Handling System \n";
 		cout << "*************\n\n";
 

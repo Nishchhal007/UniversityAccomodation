@@ -1,0 +1,9 @@
+int reg_num;
+	char name[32];
+	char father_name[32];
+	int room_no;
+	char address[32];
+	char hostel_name[32];
+	char username[32];
+	char password[32];
+	int mess_bill;
