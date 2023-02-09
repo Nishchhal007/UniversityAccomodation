@@ -77,7 +77,7 @@ public:
 	}
 	void get_CIS_id()
 	{
-		cout << "CIS ID - " << username << endl;
+		cout << "USER ID - " << username << endl;
 
 		cout << "Password - " << get_password() << endl;
 	}
@@ -154,6 +154,16 @@ public:
 	{
 		return Cleaner;
 	}
+	
+	void set_info()
+	{
+		cout<<"Enter Electrician's Contact - ";
+		cin>>Electrician;
+		cout<<"Enter Plumber's Contact - ";
+		cin>>Plumber;
+		cout<<"Enter Cleaner's Contact - ";
+		cin>>Cleaner;
+	}
 };
 
 class inventory
@@ -213,6 +223,11 @@ class room
 	student *residents;
 
 public:
+	room()
+	{
+		setcapacity();
+	}
+	
 	int get_vacancy()
 	{
 		return capacity - occupancy;
@@ -222,10 +237,6 @@ public:
 	{
 		residents = new student[x];
 		capacity = x;
-		// for(int i=0; i<x; i++)
-		// {
-		// 	residents[i] = new student;
-		// }
 		occupancy = 0;
 	}
 
@@ -279,6 +290,7 @@ public:
 	{
 		cout << "Enter Hostel Name - ";
 		cin >> hostel_name;
+		info.set_info();
 	}
 
 	int check_vacancy()
@@ -307,7 +319,7 @@ void Electrician(string hostel_name)
 	bool flag = 0;
 	while (!file1.eof())
 	{
-		// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		
 		if (temp.getname() == hostel_name)
 		{
 			flag = 1;
@@ -335,7 +347,7 @@ void Plumber(string hostel_name)
 	bool flag = 0;
 	while (!file1.eof())
 	{
-		// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		
 		if (temp.getname() == hostel_name)
 		{
 			flag = 1;
@@ -363,7 +375,7 @@ void Cleaner(string hostel_name)
 	bool flag = 0;
 	while (!file1.eof())
 	{
-		// cout << temp.getname() << "--> " << temp.check_vacancy() << endl;
+		
 		if (temp.getname() == hostel_name)
 		{
 			flag = 1;
@@ -413,10 +425,45 @@ void Furniture(string hostel_name)
 int adminView();
 int studentView();
 int studentLogin();
-// int checkCredentials(string userName, string password);
+
 int deleteStudentbyRollno();
 int getListOfStudentsWithTheirPresenseCount();
 void registerstudent();
+
+void AddHostel()
+{
+	hostel h;
+	
+	ofstream file;
+	file.open("hostel.txt", ios::app);
+
+	file.write((char *)&h, sizeof(h));
+
+	file.close();
+}
+
+
+void ListofStudent()
+{
+	ifstream file1;
+	file1.open("student.txt", ios::in);
+
+	student temp;
+	file1.read((char *)&temp, sizeof(temp));
+
+	while (!file1.eof())
+	{
+
+		temp.print_info();
+		temp.get_CIS_id();
+
+		file1.read((char *)&temp, sizeof(temp));
+	}
+
+	file1.close();
+}
+
+
 
 int adminView()
 {
@@ -426,12 +473,12 @@ int adminView()
 	{
 		system("cls");
 		cout << "\n 1 Register a Student";
-		cout << "\n 1 add hostelt";
-		cout << "\n 1 allot a hostel";
-		cout << "\n 3 Delete student";
-		cout << "set warden" << endl;
-		cout << "\n 4 Student List";
-		cout << "Enter Mess Bill" << endl;
+		cout << "\n 2 Add Hostel";
+		cout << "\n 3 Allot hostel to a Student";
+		cout << "\n 4 Delete student";
+		cout << "\n 5 Set Warden's Login";
+		cout << "\n 6 Student's List";
+		cout << "\n 7 Update Mess Bill";
 		cout << "\n 0. Go Back <- \n";
 		int choice;
 		cout << "\n Enter you choice: ";
@@ -443,19 +490,21 @@ int adminView()
 			registerstudent();
 			break;
 		case 2:
-			deleteAllStudents();
+			AddHostel();
 			break;
 		case 3:
 			deleteStudentbyRollno();
 			break;
 		case 4:
-			checkListOfStudentsRegistered();
+//			checkListOfStudentsRegistered();
 			break;
 		case 5:
-			checkPresenseCountbyRollno();
+//			checkPresenseCountbyRollno();
 			break;
 		case 6:
-			getListOfStudentsWithTheirPresenseCount();
+			ListofStudent();
+			getchar();
+			getchar();
 			break;
 		case 0:
 			goBack = 1;
@@ -483,6 +532,12 @@ public:
 	{
 		username = "admin";
 		password = "anuy";
+	}
+	
+	admin(string uname, string pass)
+	{
+		username = uname;
+		password = pass;
 	}
 
 	bool admin_login()
@@ -518,37 +573,7 @@ int studentLogin()
 	return 0;
 }
 
-int checkStudentCredentials(string username, string password)
-{
-	ifstream read;
-	read.open("db.dat");
 
-	if (read)
-	{
-
-		int recordFound = 0;
-		string line;
-		string temp = username + ".dat";
-		cout << "\n file name is : " << temp;
-		while (getline(read, line))
-		{
-			if (line == temp)
-			{
-				recordFound = 1;
-				break;
-			}
-		}
-
-		if (recordFound == 0)
-			return 0;
-		else
-			return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
 
 int getAllStudentsbyName()
 {
@@ -590,23 +615,9 @@ int deleteStudentbyRollno()
 	return 0;
 }
 
-int checkPresenseCountbyRollno()
-{
-	cout << "\n Check presense count of any Student by Roll No \n";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
 
-int checkAllPresenseCountbyRollno()
-{
-	cout << "\n Check presense count of All Students by Roll No & Name \n";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
+
+
 
 int studentView()
 {
@@ -627,7 +638,7 @@ int studentView()
 	while (!file1.eof())
 	{
 
-		if (temp.get_user_id() == username && temp.get_password() == password)
+		if ( (temp.get_user_id().compare(username) == 0 )&& (temp.get_password().compare(password) == 0))
 		{
 			res = 1;
 			break;
@@ -658,52 +669,12 @@ int studentView()
 	}
 }
 
-int markMyAttendance(string username)
-{
-	cout << "\n Mark Attendance for today !!";
-	cout << "\n Please any key to continue..";
 
-	getchar();
-	getchar();
 
-	return 0;
-}
 
-int countMyAttendance(string username)
-{
-	cout << "\n Count my attendace for today !!";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
 
-int deleteAllStudents()
-{
-	cout << "\n In delete all students !!";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
 
-int checkListOfStudentRegistered()
-{
-	cout << "\n List of All registered registered !!";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
 
-int getListOfStudentsWithTheirPresenseCount()
-{
-	cout << "\n All Students with their Presense count !!";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
 
 int checkListOfStudentsRegistered()
 {
@@ -743,13 +714,16 @@ void registerstudent()
 	getchar();
 	student s;
 	s.set_info_of_student();
-
+	s.print_info();
+	s.get_CIS_id();
+	getchar();
 	ofstream file;
 	file.open("student.txt", ios::app);
 
 	file.write((char *)&s, sizeof(s));
 
 	file.close();
+	
 }
 
 void check_hostel()
