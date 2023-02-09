@@ -310,26 +310,6 @@ public:
 		}
 	}
 
-	void deletestudent(int roll)
-	{
-		int flag = 0;
-		for (int i = 0; i < occupancy; i++)
-		{
-			if (residents[i].get_reg_num() == roll)
-			{
-				// residents[i].set_reg_num(-1);
-				flag = 1;
-				occupancy--;
-				break;
-			}
-			if (flag == 0)
-				cout << "Student does not exist in this room\n";
-			else
-			{
-				cout << "Deleted Successfully\n";
-			}
-		}
-	}
 };
 
 class warden
@@ -355,12 +335,33 @@ public:
 		string str(password);
 		return str;
 	}
+	bool warden_login()
+	{
+		string u;
+		string p;
+		cout << "\n Enter username : ";
+		cin >> u;
+		cout << "\n Enter password : ";
+		cin >> p;
+		if (uname == u && password == p)
+		{
+			wardenView();
+			return 1;
+		}
+		else
+		{
+			cout << "\n Error ! Invalid Credintials.." << endl;
+			cout << "\n Press any key for main menu " << endl;
+			getchar();
+			getchar();
+			return 0;
+		}
+	}
 };
 
 class hostel
 {
 	char hostel_name[32];
-	char warden_name[32];
 
 	room room_list[10];
 
@@ -374,8 +375,6 @@ public:
 	{
 		cout << "Enter Hostel Name - ";
 		cin >> hostel_name;
-		cout << "Enter Hostel's Warden Name - ";
-		cin >> warden_name;
 		w.set_warden();
 		info.set_services_info();
 	}
@@ -542,8 +541,6 @@ void HostelList()
 int adminView();
 int studentView();
 int studentLogin();
-
-int deleteStudentbyRollno();
 void registerstudent();
 
 void AddHostel()
@@ -594,7 +591,6 @@ int adminView()
 		cout << "\n 3 List of Hostels";
 		cout << "\n 4 Allot hostel to a Student";
 		cout << "\n 6 Student's List";
-		cout << "\n 7 Delete student";
 		cout << "\n 0. Go Back <- \n";
 		int choice;
 		cout << "\n Enter you choice: ";
@@ -626,6 +622,63 @@ int adminView()
 			ListofStudent();
 			getchar();
 			getchar();
+			break;
+
+		case 0:
+			goBack = 1;
+			break;
+		default:
+			cout << "\n Invalid choice. Enter again ";
+			getchar();
+		}
+
+		if (goBack == 1)
+		{
+			break;
+		}
+	}
+	return 0;
+}
+
+
+int wardenView()
+{
+	int goBack = 0;
+
+	while (1)
+	{
+		system("cls");
+		cout << "\n 1 Register a Student";
+		cout << "\n 2 Allot Room to a Student";
+		cout << "\n 3 Check Room Vacancy";
+		cout << "\n 4 Student's List";
+		cout << "\n 5 Provide Room Services";
+		cout << "\n 6 Mess Bill";
+		cout << "\n 7 Fine Section";
+		cout << "\n 0. Go Back <- \n";
+		int choice;
+		cout << "\n Enter you choice: ";
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			registerstudent();
+			break;
+		case 2:
+			// AddRoom();
+			break;
+		case 3:
+			ListofStudent();
+			getchar();
+			getchar();
+			break;
+		case 4:
+			cout<<"Enter Current Month Mess Bill - ";
+			// MessBill();
+			break;
+		case 5:
+			// FineManagement();
 			break;
 
 		case 0:
@@ -686,52 +739,13 @@ public:
 	}
 };
 
+	
 int studentLogin()
 {
 	system("cls");
 	cout << "\n -------- Student Login ---------";
 	studentView();
 
-	return 0;
-}
-
-int getAllStudentsbyName()
-{
-	cout << "\n List of All Students by their Name \n";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
-
-int getAllStudentsbyRollNo()
-{
-	cout << "\n List of All Students by their Roll No \n";
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
-	return 0;
-}
-
-int deleteStudentbyRollno()
-{
-	cout << "\n Delete any Student by their Roll No \n";
-	// int status;
-	// string username;
-	// cin>>username;
-	//     char fileName[100] = username + ".dat";
-	//     //cout<<"Enter the Name of File: ";
-	//     // cin>>fileName;
-	//     status = remove(fileName);
-	//     if(status==0)
-	//         cout<<"\nFile Deleted Successfully!";
-	//     else
-	//         cout<<"\nError Occurred!";
-	//     cout<<endl;
-	//     return 0;
-	cout << "\n Please any key to continue..";
-	getchar();
-	getchar();
 	return 0;
 }
 
@@ -893,15 +907,12 @@ int main()
 	{
 		system("cls");
 		title();
-		cout << "\n University Accomodation Handling System \n";
-		cout << "*************\n\n";
 
 		cout << "1. Hostel Student Login\n";
 		cout << "2. Hostel Administrator Login\n";
-
 		cout << "0. Exit\n";
-		int choice;
 
+		int choice;
 		cout << "\n Enter you choice: ";
 		cin >> choice;
 		switch (choice)
@@ -910,7 +921,6 @@ int main()
 			studentLogin();
 			break;
 		case 2:
-
 			a.admin_login();
 			break;
 		case 0:
