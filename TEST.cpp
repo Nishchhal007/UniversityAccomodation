@@ -78,6 +78,10 @@ public:
     {
         return reg_num;
     }
+    int get_room()
+    {
+        return room_no;
+    }
 
     string get_name_of_student()
     {
@@ -276,7 +280,7 @@ class room
 
     int capacity;
     int occupancy;
-    student *residents;
+    int residents[2];
 
 public:
     room()
@@ -291,12 +295,11 @@ public:
 
     void setcapacity(int x = 2)
     {
-        residents = new student[x];
         capacity = x;
         occupancy = 0;
     }
 
-    void addstudent(student s)
+    void addstudent(int s)
     {
 
         if (occupancy < capacity)
@@ -398,6 +401,19 @@ public:
         cout << "Username of the warden : " << w.get_warden_uname() << endl;
         cout << "Password : " << w.get_warden_password() << endl;
         info.get_services_info();
+    }
+    int give_room(int r)
+    {
+        int i;
+        for (i = 0; i < 10; i++)
+        {
+            if (room_list[i].get_vacancy() > 0)
+            {
+                room_list[i].addstudent(r);
+                break;
+            }
+        }
+        return i + 1;
     }
     friend class warden;
 };
@@ -638,9 +654,64 @@ int adminView()
     return 0;
 }
 
+void AllotRoom()
+{
+}
+
 int wardenView()
 {
     int goBack = 0;
+
+    bool flag = 0;
+    int res = 0;
+    string n;
+    cout << "Enter warden's Hostel Name : ";
+    cin >> n;
+    // getline(cin, n);
+
+    fstream file1;
+    file1.open("hostel.txt", ios::in | ios::out);
+
+    hostel h;
+    int i = 0;
+    file1.read((char *)&h, sizeof(h));
+
+    while (!file1.eof())
+    {
+
+        if (h.getname().compare(n) == 0)
+        {
+            res = h.w.warden_login();
+
+            if (res)
+            {
+                break;
+            }
+            else
+            {
+                return 0;
+            }
+
+            // if (s.set_hostel())
+            // {
+            //     cout << "Successfully Alloted\n";
+            //     file1.seekp(sizeof(s) * i);
+            //     file1.write((char *)&s, sizeof(s));
+            //     break;
+            // }
+            // else
+            //     cout << "Already Alloted\n";
+        }
+        file1.read((char *)&h, sizeof(h));
+        i++;
+    }
+    // file1.close();
+
+    if (res == 0)
+    {
+        cout << "Invalid Hostel" << endl;
+        return 0;
+    }
 
     while (1)
     {
@@ -659,6 +730,35 @@ int wardenView()
         switch (choice)
         {
         case 1:
+            int num;
+            cout << "Enter Registration Number : ";
+            cin >> num;
+            ifstream file2;
+            file2.open("student.txt", ios::in | ios::out);
+
+            student temp;
+            file2.read((char *)&temp, sizeof(temp));
+
+            while (!file2.eof())
+            {
+                if (temp.get_reg_num() == num)
+                {
+                    if (n.compare(temp.get_hostel()) == 0)
+                    {
+                        if (temp.get_room() == -1)
+                        {
+                            cout << "Allotment in process" << endl;
+                            int x = h.give_room(num);
+                        }
+                    }
+                }
+
+                file2.read((char *)&temp, sizeof(temp));
+            }
+            // file2.close();
+            AllotRoom();
+            break;
+        case 2:
             // AddRoom();
             break;
         case 3:
@@ -671,6 +771,10 @@ int wardenView()
             // MessBill();
             break;
         case 5:
+            cout << "Enter Current Month Mess Bill - ";
+            // MessBill();
+            break;
+        case 6:
             // FineManagement();
             break;
 
@@ -731,6 +835,33 @@ public:
         }
     }
 };
+
+void ListofStudentinHostel()
+{
+    bool flag = 0;
+    string n;
+    cout << "Enter warden's Hostel Name : ";
+    cin >> n;
+
+    fstream file1;
+    file1.open("hostel.txt", ios::in | ios::out);
+
+    hostel h;
+    int i = 0;
+    file1.read((char *)&h, sizeof(h));
+
+    while (!file1.eof())
+    {
+
+        if (h.getname().compare(n) == 0)
+        {
+            // h.s.get_name_of_student();
+        }
+        file1.read((char *)&h, sizeof(h));
+        i++;
+    }
+    file1.close();
+}
 
 int studentLogin()
 {
@@ -866,7 +997,8 @@ bool check_warden_credentials()
     bool flag = 0;
     string n;
     cout << "Enter warden's Hostel Name : ";
-    getline(cin, n);
+    cin >> n;
+    // getline(cin, n);
 
     fstream file1;
     file1.open("hostel.txt", ios::in | ios::out);
@@ -878,19 +1010,18 @@ bool check_warden_credentials()
     while (!file1.eof())
     {
 
-        if (h.getname().compare(n)==0)
+        if (h.getname().compare(n) == 0)
         {
             int res = h.w.warden_login();
 
             if (res)
             {
-              wardenView();
+                wardenView();
             }
             else
             {
                 return 0;
             }
-            
 
             // if (s.set_hostel())
             // {
@@ -935,7 +1066,7 @@ int main()
             a.admin_login();
             break;
         case 3:
-            wd.warden_login();
+            check_warden_credentials();
             break;
         case 0:
             while (1)
