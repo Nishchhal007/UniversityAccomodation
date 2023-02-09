@@ -666,7 +666,7 @@ int wardenView()
             getchar();
             getchar();
             break;
-        case 5:
+        case 4:
             cout << "Enter Current Month Mess Bill - ";
             // MessBill();
             break;
@@ -878,7 +878,7 @@ bool check_warden_credentials()
     while (!file1.eof())
     {
 
-        if (strcmp(h.getname(), n) == 0)
+        if (h.getname().compare(n)==0)
         {
             int res = h.w.warden_login();
 
@@ -892,17 +892,17 @@ bool check_warden_credentials()
             }
             
 
-            if (s.set_hostel())
-            {
-                cout << "Successfully Alloted\n";
-                file1.seekp(sizeof(s) * i);
-                file1.write((char *)&s, sizeof(s));
-                break;
-            }
-            else
-                cout << "Already Alloted\n";
+            // if (s.set_hostel())
+            // {
+            //     cout << "Successfully Alloted\n";
+            //     file1.seekp(sizeof(s) * i);
+            //     file1.write((char *)&s, sizeof(s));
+            //     break;
+            // }
+            // else
+            //     cout << "Already Alloted\n";
         }
-        file1.read((char *)&s, sizeof(s));
+        file1.read((char *)&h, sizeof(h));
         i++;
     }
     file1.close();
