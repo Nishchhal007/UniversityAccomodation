@@ -181,6 +181,14 @@ public:
             break;
         }
     }
+    void inc_cost(int x)
+    {
+        mess_bill = mess_bill + x;
+    }
+    void dec_cost(int x)
+    {
+        mess_bill = mess_bill - x;
+    }
 };
 
 class hostel_info
@@ -658,10 +666,6 @@ int adminView()
     return 0;
 }
 
-void AllotRoom()
-{
-}
-
 int wardenView()
 {
     int goBack = 0;
@@ -763,7 +767,6 @@ int wardenView()
             }
             // file1.close();
             // file2.close();
-            AllotRoom();
             break;
         case 2:
             // AddRoom();
