@@ -15,6 +15,7 @@ void check_hostel();
 void AllotHostel(int);
 int wardenView();
 void pay_mess_bill(string n, int r, int x);
+void FineManagement(int, int);
 
 class student
 {
@@ -865,7 +866,7 @@ int wardenView()
         cout << "\n 5 Set Room Amenities";
         cout << "\n 6 Mess Bill";
         cout << "\n 7 Pay Mess Bill";
-        // cout << "\n 7 Fine Section";
+        cout << "\n 8 Fine Section";
         cout << "\n 0. Go Back <- \n";
         int choice;
         cout << "\n Enter you choice: ";
@@ -1004,7 +1005,27 @@ int wardenView()
             cin >> x;
             pay_mess_bill(n, reg_num, x);
             break;
+        case 8:
+            s_var = 0;
+            file2.read((char *)&temp, sizeof(temp));
 
+            while (!file2.eof())
+            {
+                if (n.compare(temp.get_hostel()) == 0)
+                {
+                    int f;
+                    cout << "Enter the amount of Fine " << temp.get_name_of_student() << " " << temp.get_room() << " : " << endl;
+                    cin >> f;
+                    temp.inc_cost(f);
+
+                    file2.seekp(sizeof(temp) * s_var);
+                    file2.write((char *)&temp, sizeof(temp));
+                }
+
+                file2.read((char *)&temp, sizeof(temp));
+                s_var++;
+            }
+            break;
         case 0:
             goBack = 1;
 
@@ -1214,7 +1235,7 @@ void AllotHostel(int reg)
                 cout << "Already Alloted\n";
         }
 
-        //		temp.print_hostel_info();
+        //      temp.print_hostel_info();
         file1.read((char *)&s, sizeof(s));
         i++;
     }
