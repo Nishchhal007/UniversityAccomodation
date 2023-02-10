@@ -88,14 +88,7 @@ public:
     {
         return room_no;
     }
-    // int set_fine(int x)
-    // {
-    //     fine = x;
-    // }
-    // int get_fine()
-    // {
-    //     return fine;
-    // }
+
     int set_mess_bill(int x)
     {
         mess_bill = x;
@@ -168,26 +161,38 @@ public:
         {
         case 1:
             get_CIS_id();
+            getchar();
+            getchar();
             return 1;
             break;
         case 2:
-            // complaint2();
+            cout<<"Your Mess Bill is "<<get_mess_bill()<<endl;
+            getchar();
+            getchar();
             return 1;
             break;
         case 3:
             Electrician(hostel_name);
+            getchar();
+            getchar();
             return 1;
             break;
         case 4:
             Plumber(hostel_name);
+            getchar();
+            getchar();
             return 1;
             break;
         case 5:
             Cleaner(hostel_name);
+            getchar();
+            getchar();
             return 1;
             break;
         case 6:
             Furniture(hostel_name);
+            getchar();
+            getchar();
             return 1;
             break;
         case 7:
@@ -203,10 +208,12 @@ public:
     void inc_cost(int x)
     {
         mess_bill = mess_bill + x;
+        set_mess_bill(mess_bill);
     }
     void dec_cost(int x)
     {
         mess_bill = mess_bill - x;
+        set_mess_bill(mess_bill);
     }
 };
 
@@ -761,7 +768,7 @@ int wardenView()
             // file2.close();
             break;
         case 2:
-            // AddRoom();
+           
             break;
         case 3:
 
@@ -885,33 +892,6 @@ public:
         }
     }
 };
-
-void ListofStudentinHostel()
-{
-    bool flag = 0;
-    string n;
-    cout << "Enter warden's Hostel Name : ";
-    cin >> n;
-
-    fstream file1;
-    file1.open("hostel.txt", ios::in | ios::out);
-
-    hostel h;
-    int i = 0;
-    file1.read((char *)&h, sizeof(h));
-
-    while (!file1.eof())
-    {
-
-        if (h.getname().compare(n) == 0)
-        {
-            // h.s.get_name_of_student();
-        }
-        file1.read((char *)&h, sizeof(h));
-        i++;
-    }
-    file1.close();
-}
 
 int studentLogin()
 {
