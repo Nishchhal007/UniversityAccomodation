@@ -166,7 +166,7 @@ public:
             return 1;
             break;
         case 2:
-            cout<<"Your Mess Bill is "<<get_mess_bill()<<endl;
+            cout << "Your Mess Bill is " << get_mess_bill() << endl;
             getchar();
             getchar();
             return 1;
@@ -403,9 +403,8 @@ class hostel
 {
     char hostel_name[32];
 
-    room room_list[10];
-
 public:
+    room room_list[10];
     inventory stock;
     hostel_info info;
     warden w;
@@ -431,6 +430,14 @@ public:
     {
         string str(hostel_name);
         return str;
+    }
+
+    void get_room_vacancy()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            cout << i + 1 << " --> " << room_list[i].get_vacancy() << endl;
+        }
     }
 
     void print_hostel_info()
@@ -752,7 +759,6 @@ int wardenView()
         cin >> choice;
         fstream file2;
         file2.open("student.txt", ios::in | ios::out);
-
         student temp;
 
         switch (choice)
@@ -762,13 +768,59 @@ int wardenView()
             cout << "Enter Registration Number : ";
             cin >> num;
             s_var = 0;
+            // file2.seekp(sizeof(temp) * s_var);
             file2.read((char *)&temp, sizeof(temp));
 
+            while (!file2.eof())
+            {
+                if (temp.get_reg_num() == num)
+                {
+                    if (n.compare(temp.get_hostel()) == 0)
+                    {
+                        if (temp.get_room() == -1)
+                        {
+                            cout << "Allotment in process" << endl;
+                            int x = h.give_room(num);
+                            temp.set_room(x);
+
+                            file1.seekp(sizeof(h) * h_var);
+                            file1.write((char *)&h, sizeof(h));
+                            file2.seekp(sizeof(temp) * s_var);
+                            file2.write((char *)&temp, sizeof(temp));
+
+                            cout << "Room Successfully Alloted !" << endl;
+                            getchar();
+                            getchar();
+                            break;
+                        }
+                        else
+                        {
+                            cout << "Room Already Alloted" << endl;
+                            getchar();
+                            getchar();
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        cout << "Hostel Mismatch !" << endl;
+                        getchar();
+                        getchar();
+                        break;
+                    }
+                }
+
+                file2.read((char *)&temp, sizeof(temp));
+                s_var++;
+            }
+            cout << "Student Not Found" << endl;
             // file1.close();
             // file2.close();
             break;
         case 2:
-           
+            h.get_room_vacancy();
+            getchar();
+            getchar();
             break;
         case 3:
 
@@ -835,6 +887,7 @@ int wardenView()
 
         case 0:
             goBack = 1;
+
             break;
         default:
             cout << "\n Invalid choice. Enter again ";
@@ -843,6 +896,8 @@ int wardenView()
 
         if (goBack == 1)
         {
+            file1.close();
+            file2.close();
             break;
         }
     }
