@@ -460,6 +460,118 @@ public:
         }
         return i + 1;
     }
+    void request_amenities()
+    {
+        cout << "What do you want to allot : " << endl;
+        cout << "1 for almirah " << endl;
+        cout << "2 for table " << endl;
+        cout << "3 for chair " << endl;
+        cout << "4 for bed " << endl;
+        int c;
+        cin >> c;
+        switch (c)
+        {
+        case 1:
+            if (stock.get_almirah() > 0)
+            {
+                stock.set_almirah(stock.get_almirah() - 1);
+                cout << "Succesfully Alloted" << endl;
+            }
+            else
+            {
+                cout << "Almirah not Available !" << endl;
+            }
+            getchar();
+            getchar();
+            break;
+        case 2:
+            if (stock.get_tables() > 0)
+            {
+                stock.set_tables(stock.get_tables() - 1);
+                cout << "Succesfully Alloted" << endl;
+            }
+            else
+            {
+                cout << "Table not Available !" << endl;
+            }
+            getchar();
+            getchar();
+
+            break;
+        case 3:
+            if (stock.get_chair() > 0)
+            {
+                stock.set_chair(stock.get_chair() - 1);
+                cout << "Succesfully Alloted" << endl;
+            }
+            else
+            {
+                cout << "Chair not Available !" << endl;
+            }
+            getchar();
+            getchar();
+
+            break;
+        case 4:
+
+            if (stock.get_bed() > 0)
+            {
+                stock.set_bed(stock.get_bed() - 1);
+                cout << "Succesfully Alloted" << endl;
+            }
+            else
+            {
+                cout << "Bed not Available !" << endl;
+            }
+            getchar();
+            getchar();
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    void set_amenities()
+    {
+        cout << "What do you add : " << endl;
+        cout << "1 for almirah " << endl;
+        cout << "2 for table " << endl;
+        cout << "3 for chair " << endl;
+        cout << "4 for bed " << endl;
+        int c;
+        cin >> c;
+        int q;
+        cout << "Enter Quantity : ";
+        cin >> q;
+        switch (c)
+        {
+        case 1:
+            stock.set_almirah(stock.get_almirah() + q);
+            getchar();
+            getchar();
+            break;
+        case 2:
+
+            stock.set_tables(stock.get_tables() + q);
+            getchar();
+            getchar();
+            break;
+        case 3:
+            stock.set_chair(stock.get_chair() + q);
+            getchar();
+            getchar();
+            break;
+        case 4:
+            stock.set_bed(stock.get_bed() + q);
+            getchar();
+            getchar();
+            break;
+
+        default:
+            break;
+        }
+    }
     friend class warden;
 };
 
@@ -750,9 +862,10 @@ int wardenView()
         cout << "\n 2 Check Room Vacancy";
         cout << "\n 3 Student's List";
         cout << "\n 4 Provide Room Amenities";
-        cout << "\n 5 Mess Bill";
-        cout << "\n 6 Pay Mess Bill";
-        cout << "\n 7 Fine Section";
+        cout << "\n 5 Set Room Amenities";
+        cout << "\n 6 Mess Bill";
+        cout << "\n 7 Pay Mess Bill";
+        // cout << "\n 7 Fine Section";
         cout << "\n 0. Go Back <- \n";
         int choice;
         cout << "\n Enter you choice: ";
@@ -768,7 +881,7 @@ int wardenView()
             cout << "Enter Registration Number : ";
             cin >> num;
             s_var = 0;
-            // file2.seekp(sizeof(temp) * s_var);
+
             file2.read((char *)&temp, sizeof(temp));
 
             while (!file2.eof())
@@ -845,9 +958,19 @@ int wardenView()
             getchar();
             break;
         case 4:
-            //    cout
+            h.request_amenities();
+            file1.seekp(sizeof(h) * h_var);
+            file1.write((char *)&h, sizeof(h));
+
             break;
         case 5:
+            h.set_amenities();
+            file1.seekp(sizeof(h) * h_var);
+            file1.write((char *)&h, sizeof(h));
+
+            break;
+
+        case 6:
             s_var = 0;
             file2.read((char *)&temp, sizeof(temp));
             int p;
@@ -872,7 +995,7 @@ int wardenView()
             }
 
             break;
-        case 6:
+        case 7:
             int reg_num;
             cout << "Enter the Registration Number : ";
             cin >> reg_num;
@@ -880,9 +1003,6 @@ int wardenView()
             cout << "Enter Bill paid by Student : ";
             cin >> x;
             pay_mess_bill(n, reg_num, x);
-            break;
-        case 7:
-
             break;
 
         case 0:
