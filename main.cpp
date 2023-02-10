@@ -635,7 +635,7 @@ int adminView()
         cout << "\n 2 Add Hostel";
         cout << "\n 3 List of Hostels";
         cout << "\n 4 Allot hostel to a Student";
-        cout << "\n 6 Student's List";
+        cout << "\n 5 Student's List";
         cout << "\n 0. Go Back <- \n";
         int choice;
         cout << "\n Enter you choice: ";
@@ -649,21 +649,18 @@ int adminView()
         case 2:
             AddHostel();
             break;
+        case 3:
+            check_hostel();
+            getchar();
+            getchar();
+            break;
         case 4:
             cout << "Enter Registration number of the Student - ";
             int k;
             cin >> k;
             AllotHostel(k);
             break;
-        case 3:
-            check_hostel();
-            getchar();
-            getchar();
-            break;
         case 5:
-            //			checkPresenseCountbyRollno();
-            break;
-        case 6:
             ListofStudent();
             getchar();
             getchar();
@@ -697,7 +694,6 @@ int wardenView()
     string n;
     cout << "Enter warden's Hostel Name : ";
     cin >> n;
-    // getline(cin, n);
 
     fstream file1;
     file1.open("hostel.txt", ios::in | ios::out);
@@ -1036,7 +1032,6 @@ void pay_mess_bill(string n, int r, int x)
         file2.read((char *)&temp, sizeof(temp));
         s_var++;
     }
-    
 }
 
 void AllotHostel(int reg)
