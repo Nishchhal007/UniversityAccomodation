@@ -14,6 +14,7 @@ void Furniture(string hostel_name);
 void check_hostel();
 void AllotHostel(int);
 int wardenView();
+void pay_mess_bill(string n, int r, int x);
 
 class student
 {
@@ -740,7 +741,7 @@ int wardenView()
         cout << "\n 3 Student's List";
         cout << "\n 4 Provide Room Amenities";
         cout << "\n 5 Mess Bill";
-        cout << "\n 6 Reset Mess Bill";
+        cout << "\n 6 Pay Mess Bill";
         cout << "\n 7 Fine Section";
         cout << "\n 0. Go Back <- \n";
         int choice;
@@ -750,6 +751,7 @@ int wardenView()
         file2.open("student.txt", ios::in | ios::out);
 
         student temp;
+
         switch (choice)
         {
         case 1:
@@ -799,12 +801,12 @@ int wardenView()
 
             while (!file2.eof())
             {
-                if (temp.get_mess_bill() == 0 && n.compare(temp.get_hostel()) == 0)
+                if (n.compare(temp.get_hostel()) == 0)
                 {
                     int n;
-                    cout << "Enter the No. of Diet by " << temp.get_name_of_student() << " : " << endl;
+                    cout << "Enter the No. of Diet by " << temp.get_name_of_student() << " " << temp.get_room() << " : " << endl;
                     cin >> n;
-                    temp.set_mess_bill(p * n);
+                    temp.inc_cost(p * n);
 
                     file2.seekp(sizeof(temp) * s_var);
                     file2.write((char *)&temp, sizeof(temp));
@@ -816,23 +818,13 @@ int wardenView()
 
             break;
         case 6:
-
-            s_var = 0;
-            file2.read((char *)&temp, sizeof(temp));
-
-            while (!file2.eof())
-            {
-                if (n.compare(temp.get_hostel()) == 0)
-                {
-                    temp.set_mess_bill(0);
-                }
-                file2.seekp(sizeof(temp) * s_var);
-                file2.write((char *)&temp, sizeof(temp));
-
-                file2.read((char *)&temp, sizeof(temp));
-                s_var++;
-            }
-            cout << "Reset ";
+            int reg_num;
+            cout << "Enter the Registration Number : ";
+            cin >> reg_num;
+            int x;
+            cout << "Enter Bill paid by Student : ";
+            cin >> x;
+            pay_mess_bill(n, reg_num, x);
             break;
         case 7:
 
@@ -1022,6 +1014,31 @@ void check_hostel()
     file1.close();
 }
 
+void pay_mess_bill(string n, int r, int x)
+{
+    fstream file2;
+    file2.open("student.txt", ios::in | ios::out);
+
+    student temp;
+    int s_var = 0;
+    file2.read((char *)&temp, sizeof(temp));
+
+    while (!file2.eof())
+    {
+        if (temp.get_reg_num() == r)
+        {
+            temp.dec_cost(x);
+            cout << "Mess Bill Paid !" << endl;
+            file2.seekp(sizeof(temp) * s_var);
+            file2.write((char *)&temp, sizeof(temp));
+        }
+
+        file2.read((char *)&temp, sizeof(temp));
+        s_var++;
+    }
+    
+}
+
 void AllotHostel(int reg)
 {
     fstream file1;
@@ -1084,16 +1101,6 @@ bool check_warden_credentials()
             {
                 return 0;
             }
-
-            // if (s.set_hostel())
-            // {
-            //     cout << "Successfully Alloted\n";
-            //     file1.seekp(sizeof(s) * i);
-            //     file1.write((char *)&s, sizeof(s));
-            //     break;
-            // }
-            // else
-            //     cout << "Already Alloted\n";
         }
         file1.read((char *)&h, sizeof(h));
         i++;
