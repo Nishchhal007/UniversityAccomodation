@@ -15,17 +15,21 @@
 #include <cstring>
 
 using namespace std;
+
+
 bool check_hostel_vacancy();
 void Electrician(string);
 void Plumber(string);
 void Cleaner(string);
 void Furniture(string);
 void check_hostel();
+bool check_dup(int);
 void AllotHostel(int);
 int wardenView();
 void pay_mess_bill(int, int);
-bool check_dup(int);
 bool check_valid_hostel(string);
+
+
 
 class student
 {
@@ -156,7 +160,7 @@ public:
     void print_info()
     {
         cout << endl
-             << "=======================================" << endl;
+             << "======================================================" << endl;
         cout << setw(35) << "Name of student: " << name << endl;
         cout << setw(35) << "Registration number of student: " << reg_num << endl;
         cout << setw(35) << "Fathers name: " << father_name << endl;
@@ -166,14 +170,14 @@ public:
         cout << setw(35) << "Address of student: " << address << endl;
         cout << setw(35) << "USER ID: " << username << endl;
         cout << setw(35) << "Password: " << get_password() << endl;
-        cout << "=======================================" << endl;
+        cout << "======================================================" << endl;
     }
     void get_CIS_id()
     {
-        cout << "=======================================" << endl;
+        cout << "========================================" << endl;
         cout << "USER ID - " << username << endl;
         cout << "Password - " << get_password() << endl;
-        cout << "=======================================" << endl;
+        cout << "========================================" << endl;
     }
 
     int request_service()
@@ -185,7 +189,7 @@ public:
         cout << "4. for Plumber" << endl;
         cout << "5. for Room Cleaning" << endl;
         cout << "6. for Furniture" << endl;
-        cout << "7. for exit" << endl;
+        cout << "0  for exit" << endl;
         int choice;
         cin >> choice;
         switch (choice)
@@ -226,7 +230,7 @@ public:
             getchar();
             return 1;
             break;
-        case 7:
+        case 0:
 
             return 0;
             break;
@@ -589,23 +593,23 @@ public:
         case 1:
             stock.set_almirah(stock.get_almirah() + q);
             getchar();
-            getchar();
+            
             break;
         case 2:
 
             stock.set_tables(stock.get_tables() + q);
             getchar();
-            getchar();
+           
             break;
         case 3:
             stock.set_chair(stock.get_chair() + q);
             getchar();
-            getchar();
+          
             break;
         case 4:
             stock.set_bed(stock.get_bed() + q);
             getchar();
-            getchar();
+           
             break;
 
         default:
@@ -963,7 +967,7 @@ int wardenView()
         cout << "\n 4. Print Room Amenities";
         cout << "\n 5. Provide Room Amenities";
         cout << "\n 6. Set Room Amenities";
-        cout << "\n 7. Mess Bill";
+        cout << "\n 7. Set Mess Bill";
         cout << "\n 8. Pay Mess Bill";
         cout << "\n 9. Fine Section";
         cout << "\n 0. Go Back <- \n";
@@ -1164,8 +1168,8 @@ class admin
 public:
     admin()
     {
-        username = "a";
-        password = "a";
+        username = "admin";
+        password = "anuy";
     }
 
     admin(string uname, string pass)
@@ -1209,7 +1213,7 @@ int studentLogin()
 
 int studentView()
 {
-    cout << "\n ------- Student Login-------- \n";
+    
     string username, password;
     cout << "\n Enter username : ";
     cin >> username;
