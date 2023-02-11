@@ -1,3 +1,4 @@
+/*University Acomodation Handling*/
 #include <bits/stdc++.h>
 #include <iostream>
 #include <conio.h>
@@ -28,7 +29,6 @@ class student
     char username[32];
     char password[32];
     int mess_bill;
-    // int fine;/
 
 public:
     student()
@@ -47,13 +47,13 @@ public:
         cin.getline(name, 32);
         cout << "Enter Registration Number : " << endl;
         cin >> reg_num;
-        while(check_dup(reg_num))
+        while (check_dup(reg_num))
         {
-        	cout<<"Registration number already present...\n";
-        	cout<<"Enter Registration Number : \n";
-        	cin >> reg_num;
-    	}
-   		getchar();
+            cout << "Registration number already present...\n";
+            cout << "Enter Registration Number : \n";
+            cin >> reg_num;
+        }
+        getchar();
         cout << "Enter Father's Name : " << endl;
         cin.getline(father_name, 32);
         cout << "Enter address of student : " << endl;
@@ -74,10 +74,9 @@ public:
     {
         if (strcmp(hostel_name, "NA") == 0)
         {
-            if(check_hostel_vacancy()==0)
-            return 0;
-            
-            
+            if (check_hostel_vacancy() == 0)
+                return 0;
+
             cout << "Enter Hostel Name - ";
             cin >> hostel_name;
             return 1;
@@ -140,36 +139,37 @@ public:
     }
     void print_info()
     {
-    	cout<<endl<<"======================================="<<endl;
-        cout << setw(35)<< "Name of student: " << name << endl;
-        cout << setw(35)<<"Registration number of student: " << reg_num << endl;
-        cout << setw(35)<<"Fathers name: " << father_name << endl;
-        cout << setw(35)<<"Name of the hostel: " << hostel_name << endl;
-        cout << setw(35)<< "Room no of student: " << room_no << endl;
-        cout << setw(35)<<"Mess Bill of student: " << get_mess_bill() << endl;
-        cout << setw(35)<<"Address of student: " << address << endl;
-        cout << setw(35)<<"USER ID: " << username << endl;
-        cout << setw(35)<<"Password: " << get_password() << endl;
-        cout<<"======================================="<<endl;
+        cout << endl
+             << "=======================================" << endl;
+        cout << setw(35) << "Name of student: " << name << endl;
+        cout << setw(35) << "Registration number of student: " << reg_num << endl;
+        cout << setw(35) << "Fathers name: " << father_name << endl;
+        cout << setw(35) << "Name of the hostel: " << hostel_name << endl;
+        cout << setw(35) << "Room no of student: " << room_no << endl;
+        cout << setw(35) << "Mess Bill of student: " << get_mess_bill() << endl;
+        cout << setw(35) << "Address of student: " << address << endl;
+        cout << setw(35) << "USER ID: " << username << endl;
+        cout << setw(35) << "Password: " << get_password() << endl;
+        cout << "=======================================" << endl;
     }
     void get_CIS_id()
     {
-    	cout<<"======================================="<<endl;
+        cout << "=======================================" << endl;
         cout << "USER ID - " << username << endl;
         cout << "Password - " << get_password() << endl;
-        cout<<"======================================="<<endl;
+        cout << "=======================================" << endl;
     }
 
     int request_service()
     {
 
-        cout << "1.Get Your CIS ID" << endl;
-        cout << "2.View Mess Bill" << endl;
-        cout << "3 for Electrician" << endl;
-        cout << "4 for Plumber" << endl;
-        cout << "5 for Room Cleaning" << endl;
-        cout << "6 for Furniture" << endl;
-        cout << "0 for exit" << endl;
+        cout << "1. Get Your CIS ID" << endl;
+        cout << "2. View Mess Bill" << endl;
+        cout << "3. for Electrician" << endl;
+        cout << "4. for Plumber" << endl;
+        cout << "5. for Room Cleaning" << endl;
+        cout << "6. for Furniture" << endl;
+        cout << "7. for exit" << endl;
         int choice;
         cin >> choice;
         switch (choice)
@@ -210,7 +210,7 @@ public:
             getchar();
             return 1;
             break;
-        case 0:
+        case 7:
 
             return 0;
             break;
@@ -349,7 +349,7 @@ public:
 
     void setcapacity(int x = 2)
     {
-        capacity = x; 
+        capacity = x;
     }
 
     void addstudent(int s)
@@ -460,7 +460,8 @@ public:
         cout << setw(27) << "Name of Hostel: " << getname() << endl;
         cout << setw(27) << "Username of the warden : " << w.get_warden_uname() << endl;
         cout << setw(27) << "Password : " << w.get_warden_password() << endl;
-        cout << setw(27) << "Vacancy : " << check_vacancy() <<endl<<endl;
+        cout << setw(27) << "Vacancy : " << check_vacancy() << endl
+             << endl;
         info.get_services_info();
     }
     int give_room(int r)
@@ -546,6 +547,13 @@ public:
         default:
             break;
         }
+    }
+    void print_amenities()
+    {
+        cout << "aminities currently available in stock: " << endl;
+        cout << "almirah: " << stock.get_almirah() << " table: " << stock.get_tables() << " chair: " << stock.get_chair() << " bed: " << stock.get_bed() << endl;
+        getchar();
+        getchar();
     }
 
     void set_amenities()
@@ -689,10 +697,10 @@ void Furniture(string hostel_name)
         if (temp.getname() == hostel_name)
         {
             flag = 1;
-            cout << "Status of almirah " << temp.stock.get_almirah() << endl;
-            cout << "Status of bed " << temp.stock.get_bed() << endl;
-            cout << "Status of chairs " << temp.stock.get_chair() << endl;
-            cout << "Status of tables " << temp.stock.get_tables() << endl;
+            cout << "Status of almirah: " << temp.stock.get_almirah() << endl;
+            cout << "Status of bed: " << temp.stock.get_bed() << endl;
+            cout << "Status of chairs: " << temp.stock.get_chair() << endl;
+            cout << "Status of tables: " << temp.stock.get_tables() << endl;
         }
 
         file1.read((char *)&temp, sizeof(temp));
@@ -707,29 +715,27 @@ void Furniture(string hostel_name)
 
 bool check_dup(int reg)
 {
-	ifstream file1;
-    file1.open("student.txt", ios::in | ios::binary );
-    
-    if(!file1)
-    return 0;
-    
-	bool flag = 0;
+    ifstream file1;
+    file1.open("student.txt", ios::in | ios::binary);
+
+    if (!file1)
+        return 0;
+
+    bool flag = 0;
     student s;
     file1.read((char *)&s, sizeof(s));
-
-
 
     while (!file1.eof())
     {
 
         if (s.get_reg_num() == reg)
         {
-            flag=1;
+            flag = 1;
         }
 
         file1.read((char *)&s, sizeof(s));
     }
-    file1.close();	
+    file1.close();
     return flag;
 }
 
@@ -775,14 +781,14 @@ void ListofStudent()
 {
     ifstream file1;
     file1.open("student.txt", ios::in | ios::binary);
-	
-	if(!file1)
-	{
-		cout<<"NO records exist"<<endl;
-		
-		return;
-	}
-	
+
+    if (!file1)
+    {
+        cout << "NO records exist" << endl;
+
+        return;
+    }
+
     student temp;
     file1.read((char *)&temp, sizeof(temp));
 
@@ -805,16 +811,16 @@ int adminView()
     while (1)
     {
         system("cls");
-        cout << "\n 1 Register a Student";
-        cout << "\n 2 Add Hostel";
-        cout << "\n 3 List of Hostels";
-        cout << "\n 4 Allot hostel to a Student";
-        cout << "\n 5 Student's List";
+        cout << "\n 1. Register a Student";
+        cout << "\n 2. Add Hostel";
+        cout << "\n 3. List of Hostels";
+        cout << "\n 4. Allot hostel to a Student";
+        cout << "\n 5. Student's List";
         cout << "\n 0. Go Back <- \n";
         int choice;
         cout << "\n Enter you choice: ";
         cin >> choice;
-        cout<<endl;
+        cout << endl;
 
         switch (choice)
         {
@@ -898,7 +904,6 @@ int wardenView()
         file1.read((char *)&h, sizeof(h));
         h_var++;
     }
-    
 
     if (res == 0)
     {
@@ -910,14 +915,15 @@ int wardenView()
     while (1)
     {
         system("cls");
-        cout << "\n 1 Allot Room to a Student";
-        cout << "\n 2 Check Room Vacancy";
-        cout << "\n 3 Student's List";
-        cout << "\n 4 Provide Room Amenities";
-        cout << "\n 5 Set Room Amenities";
-        cout << "\n 6 Mess Bill";
-        cout << "\n 7 Pay Mess Bill";
-        cout << "\n 8 Fine Section";
+        cout << "\n 1. Allot Room to a Student";
+        cout << "\n 2. Check Room Vacancy";
+        cout << "\n 3. Student's List";
+        cout << "\n 4. Print Room Amenities";
+        cout << "\n 5. Provide Room Amenities";
+        cout << "\n 6. Set Room Amenities";
+        cout << "\n 7. Mess Bill";
+        cout << "\n 8. Pay Mess Bill";
+        cout << "\n 9. Fine Section";
         cout << "\n 0. Go Back <- \n";
         int choice;
         cout << "\n Enter you choice: ";
@@ -945,17 +951,17 @@ int wardenView()
                         if (temp.get_room() == -1)
                         {
                             cout << "Allotment in process....." << endl;
-                            
+
                             int x = h.give_room(num);
                             temp.set_room(x);
 
                             file1.seekp(sizeof(h) * h_var);
                             file1.write((char *)&h, sizeof(h));
-                            
+
                             file2.seekp(sizeof(temp) * s_var);
                             file2.write((char *)&temp, sizeof(temp));
-							file1.flush();
-							file2.flush();
+                            file1.flush();
+                            file2.flush();
                             cout << "Room Successfully Alloted !" << endl;
                             getchar();
                             getchar();
@@ -981,7 +987,7 @@ int wardenView()
                 file2.read((char *)&temp, sizeof(temp));
                 s_var++;
             }
-            cout << "Student Not Found" << endl;
+            cout << "Student Not Found!" << endl;
             break;
         case 2:
             h.get_room_vacancy();
@@ -1011,25 +1017,31 @@ int wardenView()
             getchar();
             break;
         case 4:
-            h.request_amenities();
+            h.print_amenities();
             file1.seekp(sizeof(h) * h_var);
             file1.write((char *)&h, sizeof(h));
 
             break;
         case 5:
+            h.request_amenities();
+            file1.seekp(sizeof(h) * h_var);
+            file1.write((char *)&h, sizeof(h));
+
+            break;
+        case 6:
             h.set_amenities();
             file1.seekp(sizeof(h) * h_var);
             file1.write((char *)&h, sizeof(h));
 
             break;
 
-        case 6:
+        case 7:
             s_var = 0;
             file2.read((char *)&temp, sizeof(temp));
             int p;
             cout << "Enter Bill of one diet - ";
             cin >> p;
-            // getchar();
+
             while (!file2.eof())
             {
                 if (n.compare(temp.get_hostel()) == 0)
@@ -1048,7 +1060,7 @@ int wardenView()
             }
 
             break;
-        case 7:
+        case 8:
             int reg_num;
             cout << "Enter the Registration Number : ";
             cin >> reg_num;
@@ -1057,15 +1069,15 @@ int wardenView()
             cin >> x;
             pay_mess_bill(reg_num, x);
             break;
-        case 8:
+        case 9:
             s_var = 0;
             file2.read((char *)&temp, sizeof(temp));
-            cout<<"Enter Fine reason: ";
+            cout << "Enter Fine reason: ";
             getchar();
             char s[100];
-            cin.getline(s,100);
-            cout<<s;
-            cout<<endl;            
+            cin.getline(s, 100);
+            cout << s;
+            cout << endl;
             while (!file2.eof())
             {
                 if (n.compare(temp.get_hostel()) == 0)
@@ -1166,15 +1178,15 @@ int studentView()
     ifstream file1;
     file1.open("student.txt", ios::in | ios::binary);
 
-	if(!file1)
-	{
-		cout << "\n NO student registered till now";
-        cout << "\n Press any key for Main Menu..";
+    if (!file1)
+    {
+        cout << "\n NO student registered till now";
+        cout << "\n Press any key for Main Menu...";
         getchar();
         getchar();
         return 0;
-	}
-	
+    }
+
     student temp;
     file1.read((char *)&temp, sizeof(temp));
 
@@ -1214,7 +1226,7 @@ int studentView()
 
 void registerstudent()
 {
-    cout << "\n ----- Student Registration Form ---- \n";
+    cout << "\n ----- Student Registration Form ----- \n";
 
     getchar();
     student s;
@@ -1236,45 +1248,45 @@ void check_hostel()
 
     ifstream file1;
     file1.open("hostel.txt", ios::in | ios::binary);
-	if(!file1)
-	{
-		cout<<"NO Hostel Found!"<<endl;
-		return;
-	}
-	
+    if (!file1)
+    {
+        cout << "NO Hostel Found!" << endl;
+        return;
+    }
+
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
-	cout<<"\n\n";
+    cout << "\n\n";
     while (!file1.eof())
     {
-    	cout<<"\n=========================================="<<endl;
+        cout << "\n==========================================" << endl;
         temp.print_hostel_info();
-        cout<<"\n=========================================="<<endl<<endl;
+        cout << "\n==========================================" << endl
+             << endl;
         file1.read((char *)&temp, sizeof(temp));
     }
-    
+
     file1.close();
 }
-
 
 bool check_hostel_vacancy()
 {
 
     ifstream file1;
     file1.open("hostel.txt", ios::in | ios::binary);
-	if(!file1)
-	{
-		cout<<"NO Hostel Found!"<<endl;
-		return 0;
-	}
-	
+    if (!file1)
+    {
+        cout << "NO Hostel Found!" << endl;
+        return 0;
+    }
+
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
-	
-	cout<<"Hostels Vacancy List\n\n";
+
+    cout << "Hostels Vacancy List\n\n";
     while (!file1.eof())
     {
-        cout<< temp.getname() << " --> " << temp.check_vacancy() << endl;
+        cout << temp.getname() << " --> " << temp.check_vacancy() << endl;
         file1.read((char *)&temp, sizeof(temp));
     }
     file1.close();
@@ -1321,15 +1333,15 @@ void AllotHostel(int reg)
         {
             if (s.set_hostel())
             {
-                cout << "Successfully Alloted\n";
+                cout << "Successfully Alloted!\n";
                 file1.seekp(sizeof(s) * i);
                 file1.write((char *)&s, sizeof(s));
                 break;
             }
             else
-               {
-					cout << "Cannot be Alloted\n";
-            	}
+            {
+                cout << "Can not be Alloted\n";
+            }
         }
 
         file1.read((char *)&s, sizeof(s));
@@ -1337,8 +1349,6 @@ void AllotHostel(int reg)
     }
     file1.close();
 }
-
-
 
 void title();
 
@@ -1404,8 +1414,8 @@ void title()
     printf("\n");
     printf("\t\t\t\t\t");
     printf("\n");
-    printf("\t\t\t\t    ----------------------------------\n");
+    printf("\t\t\t\t    ------------------------------------\n");
     printf("\t\t\t\t    | University Accomodation Handling |\n");
-    printf("\t\t\t\t    ----------------------------------\n");
+    printf("\t\t\t\t    ------------------------------------\n");
     printf("\n");
 }
