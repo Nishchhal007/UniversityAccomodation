@@ -6,7 +6,7 @@
 #include <cstring>
 
 using namespace std;
-void check_hostel_vacancy();
+bool check_hostel_vacancy();
 void Electrician(string);
 void Plumber(string);
 void Cleaner(string);
@@ -53,7 +53,7 @@ public:
         	cout<<"Enter Registration Number : \n";
         	cin >> reg_num;
     	}
-        getchar();
+   		getchar();
         cout << "Enter Father's Name : " << endl;
         cin.getline(father_name, 32);
         cout << "Enter address of student : " << endl;
@@ -74,7 +74,10 @@ public:
     {
         if (strcmp(hostel_name, "NA") == 0)
         {
-            check_hostel_vacancy();
+            if(check_hostel_vacancy()==0)
+            return 0;
+            
+            
             cout << "Enter Hostel Name - ";
             cin >> hostel_name;
             return 1;
@@ -706,9 +709,15 @@ bool check_dup(int reg)
 {
 	ifstream file1;
     file1.open("student.txt", ios::in | ios::binary );
+    
+    if(!file1)
+    return 0;
+    
 	bool flag = 0;
     student s;
     file1.read((char *)&s, sizeof(s));
+
+
 
     while (!file1.eof())
     {
@@ -894,6 +903,7 @@ int wardenView()
     if (res == 0)
     {
         cout << "Invalid Hostel" << endl;
+        getchar();
         return 0;
     }
 
@@ -934,15 +944,18 @@ int wardenView()
                     {
                         if (temp.get_room() == -1)
                         {
-                            cout << "Allotment in process" << endl;
+                            cout << "Allotment in process....." << endl;
+                            
                             int x = h.give_room(num);
                             temp.set_room(x);
 
                             file1.seekp(sizeof(h) * h_var);
                             file1.write((char *)&h, sizeof(h));
+                            
                             file2.seekp(sizeof(temp) * s_var);
                             file2.write((char *)&temp, sizeof(temp));
-
+							file1.flush();
+							file2.flush();
                             cout << "Room Successfully Alloted !" << endl;
                             getchar();
                             getchar();
@@ -1153,6 +1166,15 @@ int studentView()
     ifstream file1;
     file1.open("student.txt", ios::in | ios::binary);
 
+	if(!file1)
+	{
+		cout << "\n NO student registered till now";
+        cout << "\n Press any key for Main Menu..";
+        getchar();
+        getchar();
+        return 0;
+	}
+	
     student temp;
     file1.read((char *)&temp, sizeof(temp));
 
@@ -1235,7 +1257,7 @@ void check_hostel()
 }
 
 
-void check_hostel_vacancy()
+bool check_hostel_vacancy()
 {
 
     ifstream file1;
@@ -1243,7 +1265,7 @@ void check_hostel_vacancy()
 	if(!file1)
 	{
 		cout<<"NO Hostel Found!"<<endl;
-		return;
+		return 0;
 	}
 	
     hostel temp;
@@ -1256,6 +1278,7 @@ void check_hostel_vacancy()
         file1.read((char *)&temp, sizeof(temp));
     }
     file1.close();
+    return 1;
 }
 
 void pay_mess_bill(int r, int x)
@@ -1305,7 +1328,7 @@ void AllotHostel(int reg)
             }
             else
                {
-					cout << "Already Alloted\n";
+					cout << "Cannot be Alloted\n";
             	}
         }
 
