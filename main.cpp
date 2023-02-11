@@ -15,6 +15,7 @@ void check_hostel();
 void AllotHostel(int);
 int wardenView();
 void pay_mess_bill(int, int);
+bool check_dup(int);
 
 class student
 {
@@ -46,6 +47,12 @@ public:
         cin.getline(name, 32);
         cout << "Enter Registration Number : " << endl;
         cin >> reg_num;
+        while(check_dup(reg_num))
+        {
+        	cout<<"Registration number already present...\n";
+        	cout<<"Enter Registration Number : \n";
+        	cin >> reg_num;
+    	}
         getchar();
         cout << "Enter Father's Name : " << endl;
         cin.getline(father_name, 32);
@@ -693,6 +700,28 @@ void Furniture(string hostel_name)
     }
 
     file1.close();
+}
+
+bool check_dup(int reg)
+{
+	ifstream file1;
+    file1.open("student.txt", ios::in | ios::binary );
+	bool flag = 0;
+    student s;
+    file1.read((char *)&s, sizeof(s));
+
+    while (!file1.eof())
+    {
+
+        if (s.get_reg_num() == reg)
+        {
+            flag=1;
+        }
+
+        file1.read((char *)&s, sizeof(s));
+    }
+    file1.close();	
+    return flag;
 }
 
 void HostelList()
