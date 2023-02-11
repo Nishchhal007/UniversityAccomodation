@@ -15,7 +15,6 @@ void check_hostel();
 void AllotHostel(int);
 int wardenView();
 void pay_mess_bill(string n, int r, int x);
-void FineManagement(int, int);
 
 class student
 {
@@ -580,7 +579,7 @@ void Electrician(string hostel_name)
 {
 
     ifstream file1;
-    file1.open("hostel.txt", ios::in);
+    file1.open("hostel.txt", ios::in | ios::binary);
 
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -608,7 +607,7 @@ void Plumber(string hostel_name)
 {
 
     ifstream file1;
-    file1.open("hostel.txt", ios::in);
+    file1.open("hostel.txt", ios::in | ios::binary);
 
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -636,7 +635,7 @@ void Cleaner(string hostel_name)
 {
 
     ifstream file1;
-    file1.open("hostel.txt", ios::in);
+    file1.open("hostel.txt", ios::in | ios::binary);
 
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -664,7 +663,7 @@ void Furniture(string hostel_name)
 {
 
     ifstream file1;
-    file1.open("hostel.txt", ios::in);
+    file1.open("hostel.txt", ios::in | ios::binary);
 
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -693,7 +692,7 @@ void Furniture(string hostel_name)
 void HostelList()
 {
     ifstream file1;
-    file1.open("hostel.txt", ios::in);
+    file1.open("hostel.txt", ios::in | ios::binary);
 
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -721,7 +720,7 @@ void AddHostel()
     h.set_hostel_info();
 
     ofstream file;
-    file.open("hostel.txt", ios::app);
+    file.open("hostel.txt", ios::app | ios::binary);
 
     file.write((char *)&h, sizeof(h));
 
@@ -731,7 +730,7 @@ void AddHostel()
 void ListofStudent()
 {
     ifstream file1;
-    file1.open("student.txt", ios::in);
+    file1.open("student.txt", ios::in | ios::binary);
 
     student temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -823,7 +822,7 @@ int wardenView()
     cin >> n;
 
     fstream file1;
-    file1.open("hostel.txt", ios::in | ios::out);
+    file1.open("hostel.txt", ios::in | ios::binary | ios::out);
 
     hostel h;
     int i = 0;
@@ -872,7 +871,7 @@ int wardenView()
         cout << "\n Enter you choice: ";
         cin >> choice;
         fstream file2;
-        file2.open("student.txt", ios::in | ios::out);
+        file2.open("student.txt", ios::in | ios::binary | ios::out);
         student temp;
 
         switch (choice)
@@ -977,7 +976,7 @@ int wardenView()
             int p;
             cout << "Enter Bill of one diet - ";
             cin >> p;
-
+            // getchar();
             while (!file2.eof())
             {
                 if (n.compare(temp.get_hostel()) == 0)
@@ -1008,7 +1007,12 @@ int wardenView()
         case 8:
             s_var = 0;
             file2.read((char *)&temp, sizeof(temp));
-
+            cout<<"Enter Fine reason: ";
+            getchar();
+            char s[100];
+            cin.getline(s,100);
+            cout<<s;
+            cout<<endl;            
             while (!file2.eof())
             {
                 if (n.compare(temp.get_hostel()) == 0)
@@ -1109,7 +1113,7 @@ int studentView()
     int res = 0;
 
     ifstream file1;
-    file1.open("student.txt", ios::in);
+    file1.open("student.txt", ios::in | ios::binary);
 
     student temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -1160,7 +1164,7 @@ void registerstudent()
     s.get_CIS_id();
     getchar();
     ofstream file;
-    file.open("student.txt", ios::app);
+    file.open("student.txt", ios::app | ios::binary);
 
     file.write((char *)&s, sizeof(s));
 
@@ -1171,7 +1175,7 @@ void check_hostel()
 {
 
     ifstream file1;
-    file1.open("hostel.txt", ios::in);
+    file1.open("hostel.txt", ios::in | ios::binary);
 
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
@@ -1189,7 +1193,7 @@ void check_hostel()
 void pay_mess_bill(string n, int r, int x)
 {
     fstream file2;
-    file2.open("student.txt", ios::in | ios::out);
+    file2.open("student.txt", ios::in | ios::binary | ios::out);
 
     student temp;
     int s_var = 0;
@@ -1213,7 +1217,7 @@ void pay_mess_bill(string n, int r, int x)
 void AllotHostel(int reg)
 {
     fstream file1;
-    file1.open("student.txt", ios::in | ios::out);
+    file1.open("student.txt", ios::in | ios::binary | ios::out);
 
     student s;
     int i = 0;
@@ -1251,7 +1255,7 @@ bool check_warden_credentials()
     // getline(cin, n);
 
     fstream file1;
-    file1.open("hostel.txt", ios::in | ios::out);
+    file1.open("hostel.txt", ios::in | ios::binary | ios::out);
 
     hostel h;
     int i = 0;
