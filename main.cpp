@@ -1,4 +1,12 @@
 /*University Acomodation Handling*/
+
+// Group Members
+
+// 1. Ayush Gupta - 20/11/EC/046
+// 2. Nishchhal Pachouri - 20/11/EC/013
+// 3. Ujjwal Jain - 20/11/EC/017
+// 4. Yashaswi Gupta - 20/11/EC/023
+
 #include <bits/stdc++.h>
 #include <iostream>
 #include <conio.h>
@@ -17,6 +25,7 @@ void AllotHostel(int);
 int wardenView();
 void pay_mess_bill(int, int);
 bool check_dup(int);
+bool check_valid_hostel(string);
 
 class student
 {
@@ -79,6 +88,13 @@ public:
 
             cout << "Enter Hostel Name - ";
             cin >> hostel_name;
+            string str(hostel_name);
+            while (check_valid_hostel(hostel_name) == 0)
+            {
+                cout << "Invalid Hostel Name...\n";
+                cout << "Enter Again : \n";
+                cin >> hostel_name;
+            }
             return 1;
         }
         else
@@ -711,6 +727,32 @@ void Furniture(string hostel_name)
     }
 
     file1.close();
+}
+
+bool check_valid_hostel(string s)
+{
+    ifstream file1;
+    file1.open("hostel.txt", ios::in | ios::binary);
+
+    if (!file1)
+        return 1;
+
+    bool flag = 0;
+    hostel h;
+    file1.read((char *)&h, sizeof(h));
+
+    while (!file1.eof())
+    {
+
+        if (s.compare(h.getname()) == 0)
+        {
+            flag = 1;
+        }
+
+        file1.read((char *)&h, sizeof(h));
+    }
+    file1.close();
+    return flag;
 }
 
 bool check_dup(int reg)
