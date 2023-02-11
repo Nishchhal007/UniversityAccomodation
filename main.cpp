@@ -6,15 +6,15 @@
 #include <cstring>
 
 using namespace std;
-
+void check_hostel_vacancy();
 void Electrician(string);
 void Plumber(string);
 void Cleaner(string);
-void Furniture(string hostel_name);
+void Furniture(string);
 void check_hostel();
 void AllotHostel(int);
 int wardenView();
-void pay_mess_bill(string n, int r, int x);
+void pay_mess_bill(int, int);
 
 class student
 {
@@ -67,7 +67,7 @@ public:
     {
         if (strcmp(hostel_name, "NA") == 0)
         {
-            check_hostel();
+            check_hostel_vacancy();
             cout << "Enter Hostel Name - ";
             cin >> hostel_name;
             return 1;
@@ -130,19 +130,24 @@ public:
     }
     void print_info()
     {
-        cout << "Name of student: " << name << endl;
-        cout << "Registration number of student: " << reg_num << endl;
-        cout << "Fathers name: " << father_name << endl;
-        cout << "Name of the hostel: " << hostel_name << endl;
-        cout << "Room no of student: " << room_no << endl;
-        cout << "Mess Bill of student: " << get_mess_bill() << endl;
-        cout << "Address of student: " << address << endl;
+    	cout<<endl<<"======================================="<<endl;
+        cout << setw(35)<< "Name of student: " << name << endl;
+        cout << setw(35)<<"Registration number of student: " << reg_num << endl;
+        cout << setw(35)<<"Fathers name: " << father_name << endl;
+        cout << setw(35)<<"Name of the hostel: " << hostel_name << endl;
+        cout << setw(35)<< "Room no of student: " << room_no << endl;
+        cout << setw(35)<<"Mess Bill of student: " << get_mess_bill() << endl;
+        cout << setw(35)<<"Address of student: " << address << endl;
+        cout << setw(35)<<"USER ID: " << username << endl;
+        cout << setw(35)<<"Password: " << get_password() << endl;
+        cout<<"======================================="<<endl;
     }
     void get_CIS_id()
     {
+    	cout<<"======================================="<<endl;
         cout << "USER ID - " << username << endl;
-
         cout << "Password - " << get_password() << endl;
+        cout<<"======================================="<<endl;
     }
 
     int request_service()
@@ -254,7 +259,7 @@ public:
     }
     void get_services_info()
     {
-        cout << "\nServices Info"
+        cout << "Services Info"
              << endl;
         cout << "Electrician's Contact - " << get_electrician() << endl;
 
@@ -324,6 +329,7 @@ public:
     room()
     {
         setcapacity();
+        occupancy = 0;
     }
 
     int get_vacancy()
@@ -333,8 +339,7 @@ public:
 
     void setcapacity(int x = 2)
     {
-        capacity = x;
-        occupancy = 0;
+        capacity = x; 
     }
 
     void addstudent(int s)
@@ -381,7 +386,7 @@ public:
         string p;
         cout << "\n Enter username : ";
         cin >> u;
-        cout << "\n Enter password : ";
+        cout << " Enter password : ";
         cin >> p;
 
         if (uname == u && password == p)
@@ -442,9 +447,10 @@ public:
 
     void print_hostel_info()
     {
-        cout << "Name of Hostel: " << getname() << endl;
-        cout << "Username of the warden : " << w.get_warden_uname() << endl;
-        cout << "Password : " << w.get_warden_password() << endl;
+        cout << setw(27) << "Name of Hostel: " << getname() << endl;
+        cout << setw(27) << "Username of the warden : " << w.get_warden_uname() << endl;
+        cout << setw(27) << "Password : " << w.get_warden_password() << endl;
+        cout << setw(27) << "Vacancy : " << check_vacancy() <<endl<<endl;
         info.get_services_info();
     }
     int give_room(int r)
@@ -731,7 +737,14 @@ void ListofStudent()
 {
     ifstream file1;
     file1.open("student.txt", ios::in | ios::binary);
-
+	
+	if(!file1)
+	{
+		cout<<"NO records exist"<<endl;
+		
+		return;
+	}
+	
     student temp;
     file1.read((char *)&temp, sizeof(temp));
 
@@ -739,14 +752,11 @@ void ListofStudent()
     {
 
         temp.print_info();
-        temp.get_CIS_id();
 
         file1.read((char *)&temp, sizeof(temp));
-        cout << "\n\n"
-             << endl;
+        cout << "\n\n";
     }
-    cout << "\n\n"
-         << endl;
+    cout << "\n\n";
     file1.close();
 }
 
@@ -766,6 +776,7 @@ int adminView()
         int choice;
         cout << "\n Enter you choice: ";
         cin >> choice;
+        cout<<endl;
 
         switch (choice)
         {
@@ -785,6 +796,8 @@ int adminView()
             int k;
             cin >> k;
             AllotHostel(k);
+            getchar();
+            getchar();
             break;
         case 5:
             ListofStudent();
@@ -818,7 +831,7 @@ int wardenView()
     int s_var = 0;
 
     string n;
-    cout << "Enter warden's Hostel Name : ";
+    cout << " Enter warden's Hostel Name : ";
     cin >> n;
 
     fstream file1;
@@ -847,7 +860,7 @@ int wardenView()
         file1.read((char *)&h, sizeof(h));
         h_var++;
     }
-    // file1.close();
+    
 
     if (res == 0)
     {
@@ -865,7 +878,7 @@ int wardenView()
         cout << "\n 5 Set Room Amenities";
         cout << "\n 6 Mess Bill";
         cout << "\n 7 Pay Mess Bill";
-        // cout << "\n 7 Fine Section";
+        cout << "\n 8 Fine Section";
         cout << "\n 0. Go Back <- \n";
         int choice;
         cout << "\n Enter you choice: ";
@@ -927,8 +940,6 @@ int wardenView()
                 s_var++;
             }
             cout << "Student Not Found" << endl;
-            // file1.close();
-            // file2.close();
             break;
         case 2:
             h.get_room_vacancy();
@@ -976,7 +987,7 @@ int wardenView()
             int p;
             cout << "Enter Bill of one diet - ";
             cin >> p;
-
+            // getchar();
             while (!file2.eof())
             {
                 if (n.compare(temp.get_hostel()) == 0)
@@ -1002,9 +1013,34 @@ int wardenView()
             int x;
             cout << "Enter Bill paid by Student : ";
             cin >> x;
-            pay_mess_bill(n, reg_num, x);
+            pay_mess_bill(reg_num, x);
             break;
+        case 8:
+            s_var = 0;
+            file2.read((char *)&temp, sizeof(temp));
+            cout<<"Enter Fine reason: ";
+            getchar();
+            char s[100];
+            cin.getline(s,100);
+            cout<<s;
+            cout<<endl;            
+            while (!file2.eof())
+            {
+                if (n.compare(temp.get_hostel()) == 0)
+                {
+                    int f;
+                    cout << "Enter the amount of Fine for " << temp.get_name_of_student() << " (" << temp.get_room() << ") : " << endl;
+                    cin >> f;
+                    temp.inc_cost(f);
 
+                    file2.seekp(sizeof(temp) * s_var);
+                    file2.write((char *)&temp, sizeof(temp));
+                }
+
+                file2.read((char *)&temp, sizeof(temp));
+                s_var++;
+            }
+            break;
         case 0:
             goBack = 1;
 
@@ -1016,11 +1052,11 @@ int wardenView()
 
         if (goBack == 1)
         {
-            file1.close();
-            file2.close();
             break;
         }
+        file2.close();
     }
+    file1.close();
     return 0;
 }
 
@@ -1032,8 +1068,6 @@ class admin
 public:
     admin()
     {
-        // username = "admin";
-        // password = "anuy";
         username = "a";
         password = "a";
     }
@@ -1050,7 +1084,7 @@ public:
         string p;
         cout << "\n Enter username : ";
         cin >> u;
-        cout << "\n Enter password : ";
+        cout << " Enter password : ";
         cin >> p;
         if (username == u && password == p)
         {
@@ -1135,8 +1169,8 @@ void registerstudent()
     student s;
     s.set_info_of_student();
     cout << endl;
-    s.print_info();
     s.get_CIS_id();
+
     getchar();
     ofstream file;
     file.open("student.txt", ios::app | ios::binary);
@@ -1151,21 +1185,51 @@ void check_hostel()
 
     ifstream file1;
     file1.open("hostel.txt", ios::in | ios::binary);
-
+	if(!file1)
+	{
+		cout<<"NO Hostel Found!"<<endl;
+		return;
+	}
+	
     hostel temp;
     file1.read((char *)&temp, sizeof(temp));
-
+	cout<<"\n\n";
     while (!file1.eof())
     {
-        cout << "\n\n"
-             << temp.getname() << "--> " << temp.check_vacancy() << endl;
+    	cout<<"\n=========================================="<<endl;
         temp.print_hostel_info();
+        cout<<"\n=========================================="<<endl<<endl;
+        file1.read((char *)&temp, sizeof(temp));
+    }
+    
+    file1.close();
+}
+
+
+void check_hostel_vacancy()
+{
+
+    ifstream file1;
+    file1.open("hostel.txt", ios::in | ios::binary);
+	if(!file1)
+	{
+		cout<<"NO Hostel Found!"<<endl;
+		return;
+	}
+	
+    hostel temp;
+    file1.read((char *)&temp, sizeof(temp));
+	
+	cout<<"Hostels Vacancy List\n\n";
+    while (!file1.eof())
+    {
+        cout<< temp.getname() << " --> " << temp.check_vacancy() << endl;
         file1.read((char *)&temp, sizeof(temp));
     }
     file1.close();
 }
 
-void pay_mess_bill(string n, int r, int x)
+void pay_mess_bill(int r, int x)
 {
     fstream file2;
     file2.open("student.txt", ios::in | ios::binary | ios::out);
@@ -1211,52 +1275,18 @@ void AllotHostel(int reg)
                 break;
             }
             else
-                cout << "Already Alloted\n";
+               {
+					cout << "Already Alloted\n";
+            	}
         }
 
-        //		temp.print_hostel_info();
         file1.read((char *)&s, sizeof(s));
         i++;
     }
     file1.close();
 }
 
-bool check_warden_credentials()
-{
-    bool flag = 0;
-    string n;
-    cout << "Enter warden's Hostel Name : ";
-    cin >> n;
-    // getline(cin, n);
 
-    fstream file1;
-    file1.open("hostel.txt", ios::in | ios::binary | ios::out);
-
-    hostel h;
-    int i = 0;
-    file1.read((char *)&h, sizeof(h));
-
-    while (!file1.eof())
-    {
-
-        if (h.getname().compare(n) == 0)
-        {
-            int res = h.w.warden_login();
-
-            if (res)
-            {
-                wardenView();
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        file1.read((char *)&h, sizeof(h));
-        i++;
-    }
-    file1.close();
-}
 
 void title();
 
@@ -1269,9 +1299,9 @@ int main()
         system("cls");
         title();
 
-        cout << "1. Student Login\n";
-        cout << "2. Admin Login\n";
-        cout << "3. Warden Login\n";
+        cout << "1. Hostel Student Login\n";
+        cout << "2. Hostel Admin Login\n";
+        cout << "3. Hostel Warden Login\n";
         cout << "0. Exit\n";
 
         int choice;
